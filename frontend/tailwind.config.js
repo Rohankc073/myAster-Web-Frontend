@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
+    "./node_modules/flowbite/**/*.js",
     './index.html',
     './src/**/*.{js,jsx}',
   ],
@@ -13,6 +14,7 @@ export default {
   },
   plugins: [
     require('daisyui'),
+    require('flowbite/plugin')
   ],
   daisyui: {
     themes: [
