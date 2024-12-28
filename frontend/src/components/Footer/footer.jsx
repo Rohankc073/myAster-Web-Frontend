@@ -7,20 +7,10 @@ const Footer = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 gap-y-8 md:gap-8 py-10 max-w-sm mx-auto sm:max-w-3xl lg:max-w-full">
             {/* Logo Section */}
             <div className="col-span-full mb-10 lg:col-span-2 lg:mb-0">
-              <a href="https://pagedone.io/" className="flex justify-center lg:justify-start">
-                <svg
-                  className="w-40 h-8"
-                  viewBox="0 0 164 33"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Replace with your logo SVG */}
-                  <path
-                    d="M47 24.7231V7H54.4171C54.5916 7 54.816..."
-                    fill="#111827"
-                  />
-                </svg>
-              </a>
+            <a href="/" className="flex items-center space-x-3">
+          <img src="/images/logo1.png" className="h-10" alt="myAster Logo" />
+          
+        </a>
               <p className="py-8 text-sm text-gray-500 lg:max-w-xs text-center lg:text-left">
                 Trusted in more than 100 countries & 5 million customers. Have any query?
               </p>
