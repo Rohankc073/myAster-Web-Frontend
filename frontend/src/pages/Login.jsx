@@ -14,12 +14,12 @@ const LoginPage = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-12">
           {/* Left Section */}
           <div className="text-center lg:text-left max-w-lg lg:mr-16">
-            <h1 className="text-5xl font-bold leading-snug text-gray-900">
+            <h1 className="text-4xl font-bold leading-snug text-gray-900">
               It’s important to take care of your{" "}
               <span className="text-blue-600">health</span> even if you seem
               healthy.
             </h1>
-            <button className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700 transition">
+            <button className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-small rounded-lg shadow-lg hover:bg-blue-700 transition">
               Sign Up
             </button>
           </div>
