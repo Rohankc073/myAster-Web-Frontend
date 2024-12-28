@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar"; // Import the Navbar component
 
 const LoginPage = () => {
@@ -74,6 +75,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      < Footer />
     </>
   );
 };
