@@ -16,7 +16,7 @@ const Footer = () => {
               </p>
               <a
                 href="javascript:;"
-                className="py-2.5 px-5 h-9 block w-fit bg-indigo-600 rounded-full shadow-sm text-xs text-white mx-auto transition-all duration-500 hover:bg-indigo-700 lg:mx-0"
+                className="py-2.5 px-5 h-9 block w-fit bg-blue-700 rounded-full shadow-sm text-xs text-white mx-auto transition-all duration-500 hover:bg-blue-800 lg:mx-0"
               >
                 Contact us
               </a>
@@ -92,7 +92,7 @@ const Footer = () => {
               </p>
               <a
                 href="javascript:;"
-                className="flex items-center justify-center gap-2 border border-indigo-600 rounded-full py-3 px-6 w-fit lg:mx-0 text-sm text-indigo-600 font-semibold transition-all duration-500 hover:bg-indigo-50"
+                className="flex items-center justify-center gap-2 border border-blue-700 rounded-full py-3 px-6 w-fit lg:mx-0 text-sm text-blue-700 font-semibold transition-all duration-500 hover:bg-indigo-50"
               >
                 Subscribe
                 <svg
