@@ -2,7 +2,7 @@
 # 🌐 **myAster - Frontend**  
 ### **Hospital Management System + E-Pharmacy**  
 
-![React](https://img.shields.io/badge/React-Frontend-blue)  [HTML](https://img.shields.io/badge/HTML-Markup-orange)  [CSS](https://img.shields.io/badge/CSS-Styling-blue)  [JavaScript](https://img.shields.io/badge/JavaScript-Logic-yellow)  [Status](https://img.shields.io/badge/Status-Active-brightgreen)  
+![React](https://img.shields.io/badge/React-Frontend-blue)  ![HTML](https://img.shields.io/badge/HTML-Markup-orange)  ![CSS](https://img.shields.io/badge/CSS-Styling-blue)  ![JavaScript](https://img.shields.io/badge/JavaScript-Logic-yellow)  ![Status](https://img.shields.io/badge/Status-Active-brightgreen)  
 
 ---
 
