@@ -24,44 +24,42 @@ const LoginPage = () => {
             </button>
           </div>
 
-
-
           {/* Right Section - Form */}
           <div className="max-w-lg bg-white shadow-lg rounded-lg p-5 z-20 lg:ml-[435px] lg:w-[45%]"> {/* Increased max width */}
-  <h2 className="text-2xl font-semibold mb-3">Log In Here</h2>
-  <p className="text-gray-600 mb-6">
-    View all of your reports and scheduled health exams in one location.
-  </p>
-  <form>
-    <div className="mb-4">
-      <input
-        type="text"
-        placeholder="Mobile / Email ID"
-        className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
-        required
-      />
-    </div>
-    <div className="mb-4">
-      <input
-        type="password"
-        placeholder="Password"
-        className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
-        required
-      />
-    </div>
-    <div className="flex justify-between text-sm text-blue-600 mb-4">
-      <a href="#">Forget Password?</a>
-      <a href="#">Register</a>
-    </div>
-    <button
-      type="submit"
-      className="w-full bg-blue-600 text-white py-3 rounded-lg shadow-lg font-medium hover:bg-blue-700"
-    >
-      Login
-    </button>
-  </form>
-</div>
-</div>
+            <h2 className="text-2xl font-semibold mb-3">Log In Here</h2>
+            <p className="text-gray-600 mb-6">
+              View all of your reports and scheduled health exams in one location.
+            </p>
+            <form>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Mobile / Email ID"
+                  className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  required
+                />
+              </div>
+              <div className="flex justify-between text-sm text-blue-600 mb-4">
+                <a href="#">Forget Password?</a>
+                <a href="#">Register</a>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-3 rounded-lg shadow-lg font-medium hover:bg-blue-700"
+              >
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
 
 
         {/* Background Gradient */}
