@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import ForgotPassword from "./components/ForgotPassword/forgotPassword";
-import ForgotPassword from "./pages/ForgotPassword";
+import Dashboard from "./pages/DashBoard";
 import LoginPage from "./pages/Login";
 import SignUpPage from "./pages/Signup";
 
@@ -10,11 +10,17 @@ function App() {
     <Router>
       <Routes>
         {/* Login Page Route */}
+      
         <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<Dashboard />} />
+
+
 
         {/* Forgot Password Route */}
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        
         <Route path="/signup" element={<SignUpPage />} />
+
+        
       </Routes>
     </Router>
   );

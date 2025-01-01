@@ -1,9 +1,19 @@
 import React from "react";
+import { useLocation } from "react-router-dom"; // Import useLocation to detect routes
 import Button from "../Button/button"; // Import the reusable Button component
 
 const Navbar = () => {
+  const location = useLocation();
+
+  // Check if the current route is /home (Dashboard)
+  const isDashboard = location.pathname === "/home";
+
   return (
-    <nav className="bg-white fixed w-full z-50 top-0 shadow-md">
+    <nav
+      className={`${
+        isDashboard ? "bg-blue-80" : "bg-white"
+      } fixed w-full z-50 top-0 transition-colors duration-300`}
+    >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo Section */}
         <a href="/" className="flex items-center space-x-3">
@@ -13,26 +23,34 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="items-center hidden md:flex space-x-8">
           <a
-            href="#"
-            className="text-blue-700 underline font-medium hover:text-blue-800"
+            href="/home"
+            className={`${
+              isDashboard ? "text-black" : "text-blue-700"
+            } underline font-medium hover:text-blue-500`}
           >
             Home
           </a>
           <a
-            href="#"
-            className="text-gray-700 font-medium hover:text-blue-700"
+            href="/doctor"
+            className={`${
+              isDashboard ? "text-black" : "text-gray-700"
+            } font-medium hover:text-blue-500`}
           >
             Doctor
           </a>
           <a
-            href="#"
-            className="text-gray-700 font-medium hover:text-blue-700"
+            href="/medicine"
+            className={`${
+              isDashboard ? "text-black" : "text-gray-700"
+            } font-medium hover:text-blue-500`}
           >
             Medicine
           </a>
           <a
-            href="#"
-            className="text-gray-700 font-medium hover:text-blue-700"
+            href="/history"
+            className={`${
+              isDashboard ? "text-black" : "text-gray-700"
+            } font-medium hover:text-blue-500`}
           >
             History
           </a>
@@ -40,11 +58,17 @@ const Navbar = () => {
 
         {/* Buttons */}
         <div className="flex items-center space-x-4">
-          {/* Log in Button (Using secondary variant) */}
-          <Button label="Log in" variant="secondary" />
+          {/* Log in Button */}
+          <Button
+            label="Log in"
+            variant={isDashboard ? "secondary" : "secondary"} // Adjust styles
+          />
 
-          {/* Sign up Button (Using primary variant) */}
-          <Button label="Sign up" variant="primary" />
+          {/* Sign up Button */}
+          <Button
+            label="Sign up"
+            variant={isDashboard ? "primary" : "primary"} // Adjust styles
+          />
         </div>
       </div>
     </nav>
