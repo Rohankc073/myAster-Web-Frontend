@@ -20,7 +20,7 @@ const LoginPage = () => {
               Your Health App.
             </p>
             <button className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700">
-              Sign Up
+              Sign Up for Free
             </button>
           </div>
 
