@@ -49,6 +49,14 @@ const SignUpPage = () => {
               </div>
               <div className="mb-4">
                 <input
+                  type="phone_number"
+                  placeholder="Phone No. "
+                  className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <input
                   type="password"
                   placeholder="Password"
                   className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
