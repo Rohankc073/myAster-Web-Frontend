@@ -54,6 +54,14 @@ const Navbar = () => {
           >
             History
           </a>
+          <a
+            href="/contactus"
+            className={`${
+              isDashboard ? "text-black" : "text-gray-700"
+            } font-medium hover:text-blue-500`}
+          >
+            Contact Us
+          </a>
         </div>
 
         {/* Buttons */}
