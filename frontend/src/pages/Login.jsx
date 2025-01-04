@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
 const LoginPage = () => {
@@ -76,7 +75,7 @@ const LoginPage = () => {
 
 
       </div>
-      <Footer />
+
     </>
   );
 };
