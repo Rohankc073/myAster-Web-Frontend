@@ -9,7 +9,7 @@ const DoctorListComponent = ({ doctor }) => {
         className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg mr-6"
       />
       <div className="flex-1">
-        <h3 className="text-lg md:text-xl font-bold text-green-700">
+        <h3 className="text-lg md:text-xl font-bold text-blue-700">
           {doctor.name}
         </h3>
         <p className="text-gray-600 mb-2">{doctor.designation}</p>
@@ -26,7 +26,7 @@ const DoctorListComponent = ({ doctor }) => {
               {doctor.speciality}
             </p>
           </div>
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium">
+          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium">
             Book An Appointment
           </button>
         </div>

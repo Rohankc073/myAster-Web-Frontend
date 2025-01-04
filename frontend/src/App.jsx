@@ -5,6 +5,7 @@ import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
 import LoginPage from "./pages/Login";
+import ProductPage from "./pages/Product";
 import SignUpPage from "./pages/Signup";
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
         
         <Route path="/home" element={<Dashboard />} />
         <Route path="/doctor" element={<DoctorsPage />} />
+        <Route path="/product" element={<ProductPage />} />
+
 
         {/* Forgot Password Route */}
         

@@ -39,7 +39,7 @@ const Navbar = () => {
             Doctor
           </a>
           <a
-            href="/medicine"
+            href="/product"
             className={`${
               isDashboard ? "text-black" : "text-gray-700"
             } font-medium hover:text-blue-500`}
