@@ -11,22 +11,13 @@ import SignUpPage from "./pages/Signup";
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Login Page Route */}
-      
+      <Routes> 
         <Route path="/" element={<LoginPage />} />
         <Route path="/contactUs" element={<ContactUs />} />
-        
         <Route path="/home" element={<Dashboard />} />
         <Route path="/doctor" element={<DoctorsPage />} />
-        <Route path="/product" element={<ProductPage />} />
-
-
-        {/* Forgot Password Route */}
-        
+        <Route path="/product" element={<ProductPage />} />        
         <Route path="/signup" element={<SignUpPage />} />
-
-        
       </Routes>
     </Router>
   );
