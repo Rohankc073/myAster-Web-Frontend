@@ -21,7 +21,7 @@ const ProductDetailComponent = ({ product }) => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       {showSuccessAlert && (
-        <div className="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded z-50 flex items-center">
+        <div className="fixed top-4 right-4 bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded z-50 flex items-center">
           <FaCheck className="mr-2" />
           Product added to cart successfully!
         </div>
@@ -34,7 +34,7 @@ const ProductDetailComponent = ({ product }) => {
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-96 object-cover"
+                className="w-full h-100 object-contain"
                 onError={(e) => {
                   e.target.src =
                     "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3";
@@ -43,7 +43,7 @@ const ProductDetailComponent = ({ product }) => {
             </div>
 
             <div className="md:w-1/2 p-8">
-              <div className="uppercase tracking-wide text-sm text-indigo-600 font-semibold">
+              <div className="uppercase tracking-wide text-sm text-blue-600 font-semibold">
                 Pharmaceutical Product
               </div>
               <h1 className="mt-2 text-3xl font-bold text-gray-900">
@@ -73,7 +73,7 @@ const ProductDetailComponent = ({ product }) => {
               <div className="mt-8 space-y-4">
                 <button
                   onClick={handleBuyNow}
-                  className="w-full bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700 transition-colors duration-200 flex items-center justify-center"
+                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center"
                 >
                   Buy Now
                 </button>
