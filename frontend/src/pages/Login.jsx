@@ -1,7 +1,17 @@
 import React from "react";
+import { loginUser } from "../apis/api";
 import Navbar from "../components/Navbar/navbar";
 
+
 const LoginPage = () => {
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    loginUser().then((response) => {
+      console.log(response);
+    })
+    console.log("Login form submitted");
+  }
   return (
     <>
       <Navbar />
