@@ -9,3 +9,12 @@ const api = axios.create({
 })
 
 export const loginUser = (data) => api.post('/user/add', data);
+
+
+//This is the connection file between the frontend and the backend. 
+// It is used to make requests to the backend server. 
+// The loginUser function is used to make a POST request 
+// to the /user/add endpoint of the backend server. 
+// The data parameter is the user data that is sent to the backend server. 
+// The withCredentials option is set to true to allow cookies to be sent with the request. 
+// The headers option is set to specify the content type of the request as application/json.
