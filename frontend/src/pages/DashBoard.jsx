@@ -153,7 +153,7 @@ const Dashboard = () => {
                 Providing cutting-edge healthcare solutions for a brighter future.
               </p>
             </div>
-          </div>
+          </div> 12
         </section>
 
 
