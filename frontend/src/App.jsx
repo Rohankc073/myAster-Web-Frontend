@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import ForgotPassword from "./components/ForgotPassword/forgotPassword";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminManageDoctors from "./pages/AdminManageDoctors";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
 import LoginPage from "./pages/Login";
 import ProductPage from "./pages/Product";
 import ProductDetail from "./pages/ProductDetail";
+import AdminDashboard from "./pages/protected/AdminDashboard";
+import AdminManageDoctors from "./pages/protected/AdminManageDoctors";
 import SignUpPage from "./pages/Signup";
 
 function App() {

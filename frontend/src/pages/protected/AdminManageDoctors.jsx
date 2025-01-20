@@ -1,7 +1,7 @@
 // src/pages/AdminManageDoctors.jsx
 import React, { useState } from "react";
 import { FaEdit, FaPlus, FaTrash, FaUserMd } from "react-icons/fa";
-import AdminSidebar from "../components/Admin/AdminSidebar";
+import AdminSidebar from "../../components/Admin/AdminSidebar";
 
 const AdminManageDoctors = () => {
   const [doctors, setDoctors] = useState([
