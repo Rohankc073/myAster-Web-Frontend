@@ -26,6 +26,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/doctors" element={<AdminManageDoctors />} />
 
+
         
       </Routes>
     </Router>
