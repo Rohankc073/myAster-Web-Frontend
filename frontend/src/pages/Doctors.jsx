@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import Carousel from "../components/Carousel/Carousel";
 import DoctorListComponent from "../components/DocList/doclist";
 import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
-
 const DoctorsPage = () => {
   // Dummy data for doctors
   const doctors = [
@@ -54,6 +54,7 @@ const DoctorsPage = () => {
   return (
     <>
       <Navbar />
+      < Carousel />
       <div className="bg-gray-50 min-h-screen p-8 mt-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Filter Section */}
@@ -89,7 +90,7 @@ const DoctorsPage = () => {
               </button>
             </div>
           </div>
-
+          
           {/* Doctors List Section */}
           <div className="md:col-span-3">
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
