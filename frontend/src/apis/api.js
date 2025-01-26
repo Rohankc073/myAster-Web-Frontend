@@ -3,12 +3,18 @@ import axios from 'axios';
 const api = axios.create({
     baseURL: 'http://localhost:5003',
     withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-})
+    headers: { 'Content-Type': 'application/json' },
+});
 
-export const loginUser = (data) => api.post('/user/add', data);
+export const registerUser = async (data) => {
+    try {
+        const response = await api.post('/auth/register', data);
+        return response;
+    } catch (error) {
+        console.error("API Error:", error.response?.data || error.message);
+        throw error;
+    }
+};
 
 
 //This is the connection file between the frontend and the backend. 

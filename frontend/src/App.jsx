@@ -4,7 +4,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
-import LoginPage from "./pages/Login";
 import MedicineProductList from "./pages/Product";
 import ProductDetail from "./pages/ProductDetail";
 import AdminDashboard from "./pages/protected/AdminDashboard";
@@ -14,7 +13,7 @@ function App() {
   return (
     <Router>
       <Routes> 
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/contactUs" element={<ContactUs />} />
         
         <Route path="/home" element={<Dashboard />} />
