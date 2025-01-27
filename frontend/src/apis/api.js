@@ -6,15 +6,35 @@ const api = axios.create({
     headers: { 'Content-Type': 'application/json' },
 });
 
-export const registerUser = async (data) => {
+export const registerUser = async (userData) => {
+    const API_BASE_URL = "http://localhost:5003";  // <-- Hardcode your backend URL
+
     try {
-        const response = await api.post('/auth/register', data);
-        return response;
+        console.log("📤 Sending request to:", `${API_BASE_URL}/auth/register`);
+        console.log("📝 Data being sent:", userData);
+
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+        });
+
+        const data = await response.json();
+        console.log("✅ Response received:", data);
+
+        if (!response.ok) {
+            throw new Error(data.message || "Signup failed");
+        }
+
+        return data;
     } catch (error) {
-        console.error("API Error:", error.response?.data || error.message);
+        console.error("❌ API Error:", error);
         throw error;
     }
 };
+
 
 
 //This is the connection file between the frontend and the backend. 

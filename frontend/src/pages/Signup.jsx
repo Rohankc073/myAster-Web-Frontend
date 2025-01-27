@@ -1,41 +1,61 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { registerUser } from "../apis/api"; // Import registerUser function
+import { registerUser } from "../apis/api"; // Import API function
 import Navbar from "../components/Navbar/navbar";
 
-// Validation Schema
+// Validation Schema (No confirmPassword)
 const schema = yup.object().shape({
   fullName: yup.string().required("Full Name is required").min(3, "Full Name must be at least 3 characters"),
   email: yup.string().email("Invalid email").required("Email is required"),
   phoneNumber: yup.string().matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits").required("Phone number is required"),
   password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
-  confirmPassword: yup.string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
 });
 
 const SignUpPage = () => {
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors }, 
-    reset 
-  } = useForm({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: yupResolver(schema),
   });
 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
   const onSubmit = async (data) => {
+    console.log("📤 Form Submitted, Data:", data); // Debugging log
+    setLoading(true);
+    setMessage("");
+
+    // Map form data to match backend schema
+    const userData = {
+      name: data.fullName,       // Change fullName to name
+      email: data.email,
+      password: data.password,
+      phone: data.phoneNumber,   // Change phoneNumber to phone
+      role: "Patient",           // Default role to "Patient"
+    };
+
     try {
-      const response = await registerUser(data); // Use registerUser API function
-      if (response.status === 200) {
-        alert("Sign up successful!");
+      console.log("📨 Sending API Request...");
+      const response = await registerUser(userData);  // POST request sent here
+      console.log("✅ API Response:", response);
+
+      if (response?.user) {
+        setMessage("Sign up successful! Redirecting...");
         reset(); // Clear form after successful signup
+
+        // Redirect to login page after 2 seconds
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
+      } else {
+        setMessage("Signup failed. Please try again.");
       }
     } catch (error) {
-      console.error("Signup Error:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Signup failed. Please try again.");
+      console.error("❌ Signup Error:", error);
+      setMessage(error.response?.data?.message || "Signup failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,9 +72,9 @@ const SignUpPage = () => {
               <span className="text-blue-600">health</span> even if you seem healthy.
             </h1>
             <p className="mt-4 text-gray-600">Your Health App.</p>
-            <button className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700">
-              Login In
-            </button>
+            <a href="/login" className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700">
+              Log In
+            </a>
           </div>
 
           {/* Right Section - Form */}
@@ -106,41 +126,24 @@ const SignUpPage = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.password?.message}</p>
               </div>
 
-              <div className="mb-4">
-                <input 
-                  type="password" 
-                  placeholder="Confirm Password"
-                  {...register("confirmPassword")}
-                  className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                />
-                <p className="text-red-500 text-sm mt-1">{errors.confirmPassword?.message}</p>
-              </div>
-
               <div className="flex justify-between text-sm text-blue-600 mb-4">
                 <span>Already have an account?</span>
-                <a href="#">Log In</a>
+                <a href="/login">Log In</a>
               </div>
 
               <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg shadow-lg font-medium hover:bg-blue-700">
-                Sign Up
+                {loading ? "Signing Up..." : "Sign Up"}
               </button>
             </form>
 
-            {/* Sign Up with Google Button */}
-            <div className="mt-4 flex justify-center">
-              <button 
-                type="button" 
-                className="w-full flex items-center justify-center gap-2 py-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md text-gray-600 hover:text-gray-800"
-              >
-                <img src="/images/googlelogo.png" alt="Google Icon" className="w-5 h-5" />
-                Sign up with Google
-              </button>
-            </div>
+            {message && <p className="text-center mt-3 text-red-500">{message}</p>}
           </div>
         </div>
 
-        {/* Background & Doctor Image */}
-        <div className="absolute bottom-0 left-0 w-full h-[600px] bg-gradient-to-t from-blue-100 to-transparent z-1"></div>
+        {/* Background Gradient */}
+        <div className="absolute bottom-0 left-0 w-full h-[600px] bg-gradient-to-t from-blue-200 to-transparent z-[-1]"></div>
+
+        {/* Fixed Image */}
         <div className="absolute bottom-0 w-full flex justify-start">
           <img src="/images/doc1.png" alt="Healthcare Professionals" className="w-[760px] max-w-full object-contain translate-x-[200px]" />
         </div>
