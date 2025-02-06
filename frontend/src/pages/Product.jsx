@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { FaMedkit, FaPrescription } from "react-icons/fa";
 import { FiFilter, FiGrid, FiHeart, FiList, FiSearch, FiShoppingCart } from "react-icons/fi";
+import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
 const medicineData = [
@@ -32,6 +33,23 @@ const medicineData = [
   },
   {
     id: 3,
+    name: "VitaBoost",
+    genericName: "Multivitamin Complex",
+    manufacturer: "NaturalLife",
+    price: 19.99,
+    quantity: 200,
+    dosage: "1 tablet daily",
+    requiresPrescription: false,
+    category: "Vitamins",
+    image: "https://images.unsplash.com/photo-1550572017-edd951b55104",
+    description: "Complete daily multivitamin supplement"
+
+
+  },
+  {
+
+
+  id: 3,
     name: "VitaBoost",
     genericName: "Multivitamin Complex",
     manufacturer: "NaturalLife",
@@ -301,6 +319,7 @@ const MedicineProductList = () => {
         </div>
       )}
     </div>
+    <Footer />
     </>
   );
 };
