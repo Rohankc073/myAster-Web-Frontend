@@ -7,8 +7,15 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Dummy authentication check (Replace this with real authentication logic)
-  const isLoggedIn = true; // Change this dynamically later
+  // Check if the user is logged in by looking for the token in localStorage
+  const isLoggedIn = localStorage.getItem("token") !== null;
+
+  // Handle user logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login"); // Redirect to login page after logout
+  };
 
   // Check if the current route is /home (Dashboard)
   const isDashboard = location.pathname === "/home";
@@ -21,7 +28,7 @@ const Navbar = () => {
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo Section */}
-        <a href="/" className="flex items-center space-x-3">
+        <a href="/home" className="flex items-center space-x-3">
           <img src="/images/logo1.png" className="h-10" alt="myAster Logo" />
         </a>
 
@@ -47,15 +54,20 @@ const Navbar = () => {
         {/* Authentication & Cart Section */}
         <div className="flex items-center space-x-4">
           {isLoggedIn ? (
-            // Show Cart Button when logged in
-            <button onClick={() => navigate("/cart")} className="p-2">
-              <FaShoppingCart className="w-6 h-6 text-blue-600" />
-            </button>
+            <>
+              {/* Show Cart Button when logged in */}
+              <button onClick={() => navigate("/cart")} className="p-2">
+                <FaShoppingCart className="w-6 h-6 text-blue-600" />
+              </button>
+
+              {/* Logout Button Styled Like Signup */}
+              <Button label="Logout" variant="primary" onClick={handleLogout} />
+            </>
           ) : (
             // Show Login & Signup when not logged in
             <>
-              <Button label="Log in" variant="secondary" />
-              <Button label="Sign up" variant="primary" />
+              <Button label="Log in" variant="secondary" onClick={() => navigate("/login")} />
+              <Button label="Sign up" variant="primary" onClick={() => navigate("/signup")} />
             </>
           )}
         </div>

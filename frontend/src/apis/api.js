@@ -1,23 +1,22 @@
 import axios from 'axios';
 
+const API_BASE_URL = "http://localhost:5003";  // Backend URL
+
 const api = axios.create({
-    baseURL: 'http://localhost:5003',
+    baseURL: API_BASE_URL,
     withCredentials: true,
     headers: { 'Content-Type': 'application/json' },
 });
 
+// ✅ Register User Function
 export const registerUser = async (userData) => {
-    const API_BASE_URL = "http://localhost:5003";  // <-- Hardcode your backend URL
-
     try {
         console.log("📤 Sending request to:", `${API_BASE_URL}/auth/register`);
         console.log("📝 Data being sent:", userData);
 
         const response = await fetch(`${API_BASE_URL}/auth/register`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData),
         });
 
@@ -33,22 +32,32 @@ export const registerUser = async (userData) => {
         console.error("❌ API Error:", error);
         throw error;
     }
-
-
-
 };
 
+// ✅ Login User Function
 export const loginUser = async (userData) => {
-    
-}
+    try {
+        console.log("📤 Sending login request to:", `${API_BASE_URL}/auth/login`);
+        console.log("📝 Data being sent:", userData);
 
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        });
 
+        const data = await response.json();
+        console.log("✅ Login Response:", data);
 
+        if (!response.ok) {
+            throw new Error(data.message || "Login failed");
+        }
 
-//This is the connection file between the frontend and the backend. 
-// It is used to make requests to the backend server. 
-// The loginUser function is used to make a POST request 
-// to the /user/add endpoint of the backend server. 
-// The data parameter is the user data that is sent to the backend server. 
-// The withCredentials option is set to true to allow cookies to be sent with the request. 
-// The headers option is set to specify the content type of the request as application/json.
+        return data;
+    } catch (error) {
+        console.error("❌ Login Error:", error);
+        throw error;
+    }
+};
+
+export default api;
