@@ -18,12 +18,18 @@ const LoginPage = () => {
       console.log("🎉 Login Successful:", response);
 
       if (response.token) {
-        // Save token in localStorage
+        // Save token & user info in localStorage
         localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user)); // Store user info (optional)
+        localStorage.setItem("user", JSON.stringify(response.user)); // Store user info
 
         alert("Login successful! Redirecting...");
-        navigate("/home"); // Redirect to Dashboard
+
+        // **Role-based Redirection**
+        if (response.user.role === "Admin") {
+          navigate("/admin"); // Redirect Admins
+        } else {
+          navigate("/home"); // Redirect Normal Users
+        }
       } else {
         throw new Error("Token not received!");
       }
@@ -46,9 +52,7 @@ const LoginPage = () => {
               <span className="text-blue-600">health</span> even if you seem
               healthy.
             </h1>
-            <p className="mt-4 text-gray-600">
-              Your Health App.
-            </p>
+            <p className="mt-4 text-gray-600">Your Health App.</p>
             <button
               className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700"
               onClick={() => navigate("/signup")}
@@ -66,8 +70,8 @@ const LoginPage = () => {
             <form onSubmit={handleLogin}>
               <div className="mb-4">
                 <input
-                  type="text"
-                  placeholder="Mobile / Email ID"
+                  type="email"
+                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -106,7 +110,7 @@ const LoginPage = () => {
           <img
             src="/images/doc1.png"
             alt="Healthcare Professionals"
-            className="w-[760px] max-w-full object-contain translate-x-[-80px]" 
+            className="w-[760px] max-w-full object-contain translate-x-[-80px]"
           />
         </div>
       </div>

@@ -12,6 +12,7 @@ import ProductDetail from "./pages/ProductDetail";
 import AdminDashboard from "./pages/protected/AdminDashboard";
 import AdminManageDoctors from "./pages/protected/AdminManageDoctors";
 import SignUpPage from "./pages/Signup";
+import ProtectedRoute from "./routes/ProtectedRoutes";
 function App() {
   return (
     <Router>
@@ -26,7 +27,14 @@ function App() {
         <Route path="/product" element={<MedicineProductList />} /> 
         <Route path="/product/:id" element={<ProductDetail />} />   
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/admin/doctors" element={<AdminManageDoctors />} />
 
 
