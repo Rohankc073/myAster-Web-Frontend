@@ -1,9 +1,14 @@
 import React from "react";
-import { useLocation } from "react-router-dom"; // Import useLocation to detect routes
-import Button from "../Button/button"; // Import the reusable Button component
+import { FaShoppingCart } from "react-icons/fa"; // Cart Icon
+import { useLocation, useNavigate } from "react-router-dom"; // Navigation
+import Button from "../Button/button"; // Reusable Button Component
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Dummy authentication check (Replace this with real authentication logic)
+  const isLoggedIn = true; // Change this dynamically later
 
   // Check if the current route is /home (Dashboard)
   const isDashboard = location.pathname === "/home";
@@ -22,61 +27,37 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="items-center hidden md:flex space-x-8">
-          <a
-            href="/home"
-            className={`${
-              isDashboard ? "text-black" : "text-blue-700"
-            } underline font-medium hover:text-blue-500`}
-          >
+          <a href="/home" className={`${isDashboard ? "text-black" : "text-blue-700"} underline font-medium hover:text-blue-500`}>
             Home
           </a>
-          <a
-            href="/doctor"
-            className={`${
-              isDashboard ? "text-black" : "text-gray-700"
-            } font-medium hover:text-blue-500`}
-          >
+          <a href="/doctor" className={`${isDashboard ? "text-black" : "text-gray-700"} font-medium hover:text-blue-500`}>
             Doctor
           </a>
-          <a
-            href="/product"
-            className={`${
-              isDashboard ? "text-black" : "text-gray-700"
-            } font-medium hover:text-blue-500`}
-          >
+          <a href="/product" className={`${isDashboard ? "text-black" : "text-gray-700"} font-medium hover:text-blue-500`}>
             Medicine
           </a>
-          <a
-            href="/history"
-            className={`${
-              isDashboard ? "text-black" : "text-gray-700"
-            } font-medium hover:text-blue-500`}
-          >
+          <a href="/history" className={`${isDashboard ? "text-black" : "text-gray-700"} font-medium hover:text-blue-500`}>
             History
           </a>
-          <a
-            href="/contactus"
-            className={`${
-              isDashboard ? "text-black" : "text-gray-700"
-            } font-medium hover:text-blue-500`}
-          >
+          <a href="/contactus" className={`${isDashboard ? "text-black" : "text-gray-700"} font-medium hover:text-blue-500`}>
             Contact Us
           </a>
         </div>
 
-        {/* Buttons */}
+        {/* Authentication & Cart Section */}
         <div className="flex items-center space-x-4">
-          {/* Log in Button */}
-          <Button
-            label="Log in"
-            variant={isDashboard ? "secondary" : "secondary"} // Adjust styles
-          />
-
-          {/* Sign up Button */}
-          <Button
-            label="Sign up"
-            variant={isDashboard ? "primary" : "primary"} // Adjust styles
-          />
+          {isLoggedIn ? (
+            // Show Cart Button when logged in
+            <button onClick={() => navigate("/cart")} className="p-2">
+              <FaShoppingCart className="w-6 h-6 text-blue-600" />
+            </button>
+          ) : (
+            // Show Login & Signup when not logged in
+            <>
+              <Button label="Log in" variant="secondary" />
+              <Button label="Sign up" variant="primary" />
+            </>
+          )}
         </div>
       </div>
     </nav>

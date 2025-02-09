@@ -1,6 +1,8 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import ForgotPassword from "./components/ForgotPassword/forgotPassword";
+import CartPage from "./pages/Cart";
+import CheckoutPage from "./pages/Checkout";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
@@ -17,7 +19,8 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/contactUs" element={<ContactUs />} />
-        
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/home" element={<Dashboard />} />
         <Route path="/doctor" element={<DoctorsPage />} />
         <Route path="/product" element={<MedicineProductList />} /> 
