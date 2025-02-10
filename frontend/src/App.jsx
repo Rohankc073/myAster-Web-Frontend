@@ -11,6 +11,7 @@ import MedicineProductList from "./pages/Product";
 import ProductDetail from "./pages/ProductDetail";
 import AdminDashboard from "./pages/protected/AdminDashboard";
 import AdminManageDoctors from "./pages/protected/AdminManageDoctors";
+import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
 import ManageUsers from "./pages/Protected/AdminManageUsers";
 import SignUpPage from "./pages/Signup";
 import ProtectedRoute from "./routes/ProtectedRoutes";
@@ -45,6 +46,7 @@ function App() {
           }
         />
         <Route path="/admin/doctors" element={<AdminManageDoctors />} />
+        <Route path="/admin/product" element={<AdminManageMedicines />} />
 
 
         

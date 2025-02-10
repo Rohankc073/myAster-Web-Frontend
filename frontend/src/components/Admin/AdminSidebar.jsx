@@ -53,7 +53,7 @@ const AdminSidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/admin/products" className="flex items-center p-2 rounded-lg hover:bg-gray-700">
+              <Link to="/admin/product" className="flex items-center p-2 rounded-lg hover:bg-gray-700">
                 <FaBoxes className="w-5 h-5 text-gray-400" />
                 <span className="ml-3">Manage Products</span>
               </Link>
