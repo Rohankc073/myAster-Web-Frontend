@@ -4,11 +4,16 @@ import { Navigate } from "react-router-dom";
 // Admin Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
-  if (!token || !user || user.role !== "Admin") {
-    alert("Unauthorized! Redirecting to login.");
+  // If no token or no user, redirect to login
+  if (!token || !user) {
     return <Navigate to="/login" replace />;
+  }
+
+  // If user is not an Admin, redirect them to home
+  if (user.role !== "Admin") {
+    return <Navigate to="/home" replace />;
   }
 
   return children;

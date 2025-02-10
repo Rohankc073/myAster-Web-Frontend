@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = "http://localhost:5003";  // Backend URL
+const API_BASE_URL = "http://localhost:5003"; // Backend URL
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -8,28 +8,21 @@ const api = axios.create({
     headers: { 'Content-Type': 'application/json' },
 });
 
+// ✅ Helper Function to Get Token from Local Storage
+const getAuthToken = () => localStorage.getItem("token");
+
 // ✅ Register User Function
 export const registerUser = async (userData) => {
     try {
         console.log("📤 Sending request to:", `${API_BASE_URL}/auth/register`);
         console.log("📝 Data being sent:", userData);
 
-        const response = await fetch(`${API_BASE_URL}/auth/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData),
-        });
+        const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
 
-        const data = await response.json();
-        console.log("✅ Response received:", data);
-
-        if (!response.ok) {
-            throw new Error(data.message || "Signup failed");
-        }
-
-        return data;
+        console.log("✅ Response received:", response.data);
+        return response.data;
     } catch (error) {
-        console.error("❌ API Error:", error);
+        console.error("❌ API Error:", error.response?.data || error.message);
         throw error;
     }
 };
@@ -40,22 +33,38 @@ export const loginUser = async (userData) => {
         console.log("📤 Sending login request to:", `${API_BASE_URL}/auth/login`);
         console.log("📝 Data being sent:", userData);
 
-        const response = await fetch(`${API_BASE_URL}/auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData),
-        });
+        const response = await axios.post(`${API_BASE_URL}/auth/login`, userData);
 
-        const data = await response.json();
-        console.log("✅ Login Response:", data);
+        console.log("✅ Login Response:", response.data);
 
-        if (!response.ok) {
-            throw new Error(data.message || "Login failed");
+        if (response.data.token) {
+            // Store Token & User Data
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
         }
 
-        return data;
+        return response.data;
     } catch (error) {
-        console.error("❌ Login Error:", error);
+        console.error("❌ Login Error:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+// ✅ Fetch Users (Admin Only)
+export const getAllUsers = async () => {
+    const token = localStorage.getItem("token"); // Get token from localStorage
+
+    if (!token) {
+        throw new Error("Unauthorized: No token found");
+    }
+
+    try {
+        const response = await axios.get("http://localhost:5003/user/all", {
+            headers: { Authorization: `Bearer ${token}` }, // Attach token
+        });
+        return response.data;
+    } catch (error) {
+        console.error("❌ Error fetching users:", error.response?.data || error.message);
         throw error;
     }
 };
