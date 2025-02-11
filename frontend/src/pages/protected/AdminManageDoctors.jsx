@@ -11,10 +11,11 @@ const AdminManageDoctors = () => {
   const [newDoctor, setNewDoctor] = useState({
     name: "",
     specialization: "",
-    availableDays: "",
-    availableTimes: "",
+    availableDays: [],
+    availableTimes: [],
     contact: "",
     email: "",
+    image: null, // Image file
   });
 
   const token = localStorage.getItem("token");
@@ -40,7 +41,25 @@ const AdminManageDoctors = () => {
   // ✅ Handle Input Change for Add/Edit
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewDoctor({ ...newDoctor, [name]: value });
+
+    if (name === "availableDays") {
+      setNewDoctor({ ...newDoctor, availableDays: value.split(",").map((date) => date.trim()) });
+    } else if (name === "availableTimes") {
+      setNewDoctor({
+        ...newDoctor,
+        availableTimes: value.split(",").map((time) => {
+          const [startTime, endTime] = time.trim().split("-");
+          return { startTime: startTime.trim(), endTime: endTime.trim() };
+        }),
+      });
+    } else {
+      setNewDoctor({ ...newDoctor, [name]: value });
+    }
+  };
+
+  // ✅ Handle Image Upload
+  const handleImageChange = (e) => {
+    setNewDoctor({ ...newDoctor, image: e.target.files[0] });
   };
 
   // ✅ Open Add/Edit Modal
@@ -50,20 +69,22 @@ const AdminManageDoctors = () => {
       setNewDoctor({
         name: doctor.name || "",
         specialization: doctor.specialization || "",
-        availableDays: doctor.availableDays ? doctor.availableDays.join(", ") : "",
-        availableTimes: doctor.availableTimes ? doctor.availableTimes.join(", ") : "",
+        availableDays: doctor.availableDays || [],
+        availableTimes: doctor.availableTimes || [],
         contact: doctor.contact || "",
         email: doctor.email || "",
+        image: doctor.image || null,
       });
     } else {
       setEditingDoctor(null);
       setNewDoctor({
         name: "",
         specialization: "",
-        availableDays: "",
-        availableTimes: "",
+        availableDays: [],
+        availableTimes: [],
         contact: "",
         email: "",
+        image: null,
       });
     }
     setShowModal(true);
@@ -72,41 +93,42 @@ const AdminManageDoctors = () => {
   // ✅ Submit New or Updated Doctor
   const handleSubmit = async () => {
     try {
-      const doctorData = {
-        ...newDoctor,
-        availableDays: newDoctor.availableDays.split(",").map(day => day.trim()),
-        availableTimes: newDoctor.availableTimes.split(",").map(time => time.trim()),
-      };
-
-      if (!doctorData.name || !doctorData.specialization || !doctorData.email || !doctorData.contact) {
+      if (!newDoctor.name || !newDoctor.specialization || !newDoctor.email || !newDoctor.contact) {
         alert("⚠️ Please fill in all required fields.");
         return;
       }
 
+      const formData = new FormData();
+      formData.append("name", newDoctor.name);
+      formData.append("specialization", newDoctor.specialization);
+      formData.append("contact", newDoctor.contact);
+      formData.append("email", newDoctor.email);
+      formData.append("availableDays", JSON.stringify(newDoctor.availableDays));
+      formData.append("availableTimes", JSON.stringify(newDoctor.availableTimes));
+      
+      if (newDoctor.image && typeof newDoctor.image !== "string") {
+        formData.append("image", newDoctor.image);
+      }
+
       let response;
       if (editingDoctor) {
-        // ✅ Update Doctor
-        response = await axios.put(
-          `http://localhost:5003/doctors/${editingDoctor._id}`,
-          doctorData,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        response = await axios.put(`http://localhost:5003/doctors/${editingDoctor._id}`, formData, {
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+        });
 
-        // Update UI immediately
         setDoctors((prevDoctors) =>
           prevDoctors.map((doc) => (doc._id === editingDoctor._id ? response.data.updatedDoctor : doc))
         );
       } else {
-        // ✅ Add New Doctor
-        response = await axios.post("http://localhost:5003/doctors/save", doctorData, {
-          headers: { Authorization: `Bearer ${token}` },
+        response = await axios.post("http://localhost:5003/doctors/save", formData, {
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         });
 
-        // Update UI immediately
         setDoctors((prevDoctors) => [...prevDoctors, response.data.newDoctor]);
       }
 
       setShowModal(false);
+      fetchDoctors(); // Refresh list after update
     } catch (error) {
       console.error("❌ Error saving doctor:", error.response ? error.response.data : error);
       alert("⚠️ Error: " + (error.response?.data?.error || "Something went wrong."));
@@ -121,7 +143,7 @@ const AdminManageDoctors = () => {
       await axios.delete(`http://localhost:5003/doctors/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchDoctors(); // Refresh the list
+      fetchDoctors(); // Refresh list after delete
     } catch (error) {
       console.error("❌ Error deleting doctor:", error);
     }
@@ -158,13 +180,14 @@ const AdminManageDoctors = () => {
                 <th className="border p-3">Contact</th>
                 <th className="border p-3">Available Days</th>
                 <th className="border p-3">Available Times</th>
+                <th className="border p-3">Image</th>
                 <th className="border p-3">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="8" className="text-center p-4 text-gray-500">
+                  <td colSpan="9" className="text-center p-4 text-gray-500">
                     Loading doctors...
                   </td>
                 </tr>
@@ -176,19 +199,18 @@ const AdminManageDoctors = () => {
                     <td className="p-3">{doctor.specialization}</td>
                     <td className="p-3">{doctor.email}</td>
                     <td className="p-3">{doctor.contact}</td>
-                    <td className="p-3">{doctor.availableDays.join(", ")}</td>
-                    <td className="p-3">{doctor.availableTimes.join(", ")}</td>
+                    <td className="p-3">{doctor.availableDays?.join(", ") || "N/A"}</td>
+                    <td className="p-3">{doctor.availableTimes?.map(t => `${t.startTime} - ${t.endTime}`).join(", ") || "N/A"}</td>
+                    <td className="p-3">
+                      {doctor.image && (
+                        <img src={`http://localhost:5003/${doctor.image}`} alt={doctor.name} className="w-16 h-16 rounded" />
+                      )}
+                    </td>
                     <td className="p-3 flex justify-center space-x-2">
-                      <button
-                        onClick={() => openModal(doctor)}
-                        className="text-yellow-600 hover:text-yellow-800"
-                      >
+                      <button onClick={() => openModal(doctor)} className="text-yellow-600 hover:text-yellow-800">
                         <FaEdit />
                       </button>
-                      <button
-                        onClick={() => handleDelete(doctor._id)}
-                        className="text-red-600 hover:text-red-800"
-                      >
+                      <button onClick={() => handleDelete(doctor._id)} className="text-red-600 hover:text-red-800">
                         <FaTrash />
                       </button>
                     </td>
@@ -199,31 +221,6 @@ const AdminManageDoctors = () => {
           </table>
         </div>
       </div>
-
-      {/* Add/Edit Doctor Modal */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">{editingDoctor ? "Edit Doctor" : "Add Doctor"}</h2>
-
-            {Object.keys(newDoctor).map((field) => (
-              <input
-                key={field}
-                type="text"
-                name={field}
-                placeholder={field.replace(/([A-Z])/g, " $1")}
-                className="w-full border p-2 mb-2"
-                onChange={handleInputChange}
-                value={newDoctor[field]}
-              />
-            ))}
-
-            <button onClick={handleSubmit} className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
-              Save
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
