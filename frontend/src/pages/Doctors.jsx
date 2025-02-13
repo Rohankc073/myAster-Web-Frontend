@@ -12,14 +12,17 @@ const DoctorsPage = () => {
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
   const [specialities, setSpecialities] = useState([]);
 
+  // ✅ Fetch doctors from API
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get("http://localhost:5003/doctors/getAll");
         setDoctors(response.data);
-
+        
+        // Extract unique specialities from doctors
         const uniqueSpecialities = [...new Set(response.data.map(doc => doc.specialization))];
         setSpecialities(uniqueSpecialities);
+        
       } catch (err) {
         setError("Failed to load doctors. Please try again.");
         console.error("❌ Error fetching doctors:", err);
@@ -31,12 +34,18 @@ const DoctorsPage = () => {
     fetchDoctors();
   }, []);
 
+  // ✅ Filtered doctors based on selected speciality
+  const filteredDoctors = selectedSpeciality
+    ? doctors.filter((doctor) => doctor.specialization === selectedSpeciality)
+    : doctors;
+
   return (
     <>
       <Navbar />
       <Carousel />
       <div className="bg-gray-50 min-h-screen p-8 mt-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Filter Section */}
           <div className="md:col-span-1 bg-white shadow-md rounded-lg p-6">
             <h2 className="text-lg font-bold text-gray-700 mb-4">Filters</h2>
             <div>
@@ -52,18 +61,25 @@ const DoctorsPage = () => {
                       className="w-4 h-4"
                       onChange={(e) => setSelectedSpeciality(e.target.value)}
                     />
-                    <label htmlFor={`speciality-${index}`} className="text-gray-600 cursor-pointer">
+                    <label
+                      htmlFor={`speciality-${index}`}
+                      className="text-gray-600 cursor-pointer"
+                    >
                       {speciality}
                     </label>
                   </li>
                 ))}
               </ul>
-              <button className="mt-4 text-sm text-blue-600 hover:underline" onClick={() => setSelectedSpeciality("")}>
+              <button
+                className="mt-4 text-sm text-blue-600 hover:underline"
+                onClick={() => setSelectedSpeciality("")}
+              >
                 Clear All
               </button>
             </div>
           </div>
 
+          {/* Doctors List Section */}
           <div className="md:col-span-3">
             {loading ? (
               <p className="text-gray-600">Loading doctors...</p>
@@ -71,19 +87,14 @@ const DoctorsPage = () => {
               <p className="text-red-600">{error}</p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-                {doctors.length > 0 ? (
-                  doctors.map((doctor) => (
-                    <div key={doctor._id} className="bg-white shadow-md p-6 rounded-lg flex items-center">
-                      <img
-                        src={doctor.image} // ✅ Load the correct image path
-                        alt={doctor.name}
-                        className="w-24 h-24 rounded-full mr-4"
-                      />
-                      <DoctorListComponent doctor={doctor} />
-                    </div>
+                {filteredDoctors.length > 0 ? (
+                  filteredDoctors.map((doctor) => (
+                    <DoctorListComponent key={doctor._id} doctor={doctor} />
                   ))
                 ) : (
-                  <p className="text-gray-600">No doctors available for the selected speciality.</p>
+                  <p className="text-gray-600">
+                    No doctors available for the selected speciality.
+                  </p>
                 )}
               </div>
             )}

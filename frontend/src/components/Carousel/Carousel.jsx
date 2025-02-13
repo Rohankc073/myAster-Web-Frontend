@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 
+// ✅ Import images if stored in `src/assets/`
+// import banner from "../assets/images/banner.png";
+// import slide2 from "../assets/images/slide2.jpg";
+// import slide3 from "../assets/images/slide3.jpg";
+
 const Carousel = () => {
+  // ✅ Slides with Images (for public/images/ folder)
   const slides = [
-    { id: 1, text: "First slide", bgColor: "bg-gray-300/60" },
-    { id: 2, text: "Second slide", bgColor: "bg-gray-300/80" },
-    { id: 3, text: "Third slide", bgColor: "bg-gray-300" },
+    { id: 1, image: "/images/banner.png", alt: "Slide 1" },
+    { id: 2, image: "/images/slide2.jpg", alt: "Slide 2" },
+    { id: 3, image: "/images/slide3.jpg", alt: "Slide 3" },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-slide effect (change every 4 seconds)
+  // ✅ Auto-slide effect (change every 4 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -17,6 +23,12 @@ const Carousel = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
+  // ✅ Debugging: Log Image URLs
+  useEffect(() => {
+    console.log("Image Source:", slides[currentSlide].image);
+  }, [currentSlide]);
+
+  // ✅ Previous & Next Slide Functions
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
@@ -27,22 +39,30 @@ const Carousel = () => {
 
   return (
     <div className="relative w-full">
-      <div className="carousel h-80">
-        <div className="carousel-body h-full">
+      <div className="carousel min-h-[400px] relative overflow-hidden">
+        <div className="carousel-body h-full w-full">
           {slides.map((slide, index) => (
             <div
               key={slide.id}
-              className={`carousel-slide absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-700 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              } ${slide.bgColor}`}
+              className={`carousel-slide absolute inset-0 w-full h-full flex items-center justify-center transition-opacity duration-700 ${
+                index === currentSlide ? "opacity-100" : "opacity-50"
+              }`}
             >
-              <span className="text-2xl sm:text-4xl">{slide.text}</span>
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.error(`Error loading image: ${slide.image}`);
+                  e.target.src = "/images/default-placeholder.jpg"; // Fallback image
+                }}
+              />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Previous Button */}
+      {/* ✅ Previous Button */}
       <button
         onClick={prevSlide}
         className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg"
@@ -63,7 +83,7 @@ const Carousel = () => {
         </svg>
       </button>
 
-      {/* Next Button */}
+      {/* ✅ Next Button */}
       <button
         onClick={nextSlide}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg"
@@ -84,7 +104,7 @@ const Carousel = () => {
         </svg>
       </button>
 
-      {/* Pagination Dots */}
+      {/* ✅ Pagination Dots */}
       <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-3">
         {slides.map((_, index) => (
           <button
