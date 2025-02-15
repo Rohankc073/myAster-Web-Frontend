@@ -1,68 +1,11 @@
-import React, { useMemo, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaMedkit, FaPrescription } from "react-icons/fa";
 import { FiFilter, FiGrid, FiHeart, FiList, FiSearch, FiShoppingCart } from "react-icons/fi";
 import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
-const medicineData = [
-  {
-    id: 1,
-    name: "Aspirin Plus",
-    genericName: "Acetylsalicylic Acid",
-    manufacturer: "HealthCare Pharma",
-    price: 29.99,
-    quantity: 100,
-    dosage: "500mg",
-    requiresPrescription: true,
-    category: "Pain Relief",
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae",
-    description: "Effective pain relief medication for various conditions"
-  },
-  {
-    id: 2,
-    name: "Amoxicillin",
-    genericName: "Amoxicillin Trihydrate",
-    manufacturer: "MediCorp",
-    price: 45.99,
-    quantity: 50,
-    dosage: "250mg",
-    requiresPrescription: true,
-    category: "Antibiotics",
-    image: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926",
-    description: "Broad-spectrum antibiotic for bacterial infections"
-  },
-  {
-    id: 3,
-    name: "VitaBoost",
-    genericName: "Multivitamin Complex",
-    manufacturer: "NaturalLife",
-    price: 19.99,
-    quantity: 200,
-    dosage: "1 tablet daily",
-    requiresPrescription: false,
-    category: "Vitamins",
-    image: "https://images.unsplash.com/photo-1550572017-edd951b55104",
-    description: "Complete daily multivitamin supplement"
-
-
-  },
-  {
-
-
-  id: 3,
-    name: "VitaBoost",
-    genericName: "Multivitamin Complex",
-    manufacturer: "NaturalLife",
-    price: 19.99,
-    quantity: 200,
-    dosage: "1 tablet daily",
-    requiresPrescription: false,
-    category: "Vitamins",
-    image: "https://images.unsplash.com/photo-1550572017-edd951b55104",
-    description: "Complete daily multivitamin supplement"
-  }
-];
-
+// Categories and Manufacturers remain static as before
 const categories = ["All", "Pain Relief", "Antibiotics", "Vitamins", "Heart Health", "Diabetes"];
 const manufacturers = ["All", "HealthCare Pharma", "MediCorp", "NaturalLife"];
 
@@ -74,9 +17,27 @@ const MedicineProductList = () => {
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [showPrescriptionOnly, setShowPrescriptionOnly] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);  // State to store the fetched products
+  const [loading, setLoading] = useState(true);  // State for loading indicator
 
+  // Fetch products from the API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5003/products/all"); // API endpoint to fetch products
+        setProducts(response.data); // Update products state with the fetched data
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Filter products based on search, category, manufacturer, price range, and prescription-only filter
   const filteredProducts = useMemo(() => {
-    return medicineData.filter(product => {
+    return products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.genericName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
@@ -86,7 +47,7 @@ const MedicineProductList = () => {
 
       return matchesSearch && matchesCategory && matchesManufacturer && matchesPriceRange && matchesPrescription;
     });
-  }, [searchQuery, selectedCategory, selectedManufacturer, priceRange, showPrescriptionOnly]);
+  }, [searchQuery, selectedCategory, selectedManufacturer, priceRange, showPrescriptionOnly, products]);
 
   const ProductCard = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
@@ -260,7 +221,12 @@ const MedicineProductList = () => {
           </div>
 
           <div className="md:col-span-3">
-            {filteredProducts.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-12 bg-white rounded-lg">
+                <FaMedkit className="mx-auto text-4xl text-gray-400 mb-4" />
+                <p className="text-gray-600">Loading products...</p>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="text-center py-12 bg-white rounded-lg">
                 <FaMedkit className="mx-auto text-4xl text-gray-400 mb-4" />
                 <p className="text-gray-600">No products found matching your criteria</p>

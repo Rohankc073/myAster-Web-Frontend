@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // For redirection
 import { loginUser } from "../apis/api";
 import Navbar from "../components/Navbar/navbar";
@@ -10,26 +10,42 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Handle login form submission
+  // ✅ Check if User is Already Logged In on Load
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (storedUser && token) {
+      const user = JSON.parse(storedUser);
+      if (user.role === "Admin") {
+        navigate("/admin"); // Redirect Admin
+      } else {
+        navigate("/home"); // Redirect Normal User
+      }
+    }
+  }, [navigate]); // Runs only on component mount
+
+  // ✅ Handle login form submission
   async function handleLogin(e) {
     e.preventDefault();
     try {
       const response = await loginUser({ email, password });
-      console.log("🎉 Login Successful:", response);
 
       if (response.token) {
-        // Save token & user info in localStorage
+        // ✅ Save token & user info in localStorage
         localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user)); // Store user info
+        localStorage.setItem("user", JSON.stringify(response.user));
 
         alert("Login successful! Redirecting...");
 
-        // **Role-based Redirection**
-        if (response.user.role === "Admin") {
-          navigate("/admin"); // Redirect Admins
-        } else {
-          navigate("/home"); // Redirect Normal Users
-        }
+        // ✅ **Ensure Navigation Happens After State Updates**
+        setTimeout(() => {
+          if (response.user.role === "Admin") {
+            navigate("/admin");
+          } else {
+            navigate("/home");
+          }
+        }, 100); // Small delay ensures navigation occurs properly
       } else {
         throw new Error("Token not received!");
       }

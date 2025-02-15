@@ -7,7 +7,6 @@ import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
 import LoginPage from "./pages/Login";
 import MedicineProductList from "./pages/Product";
-import ProductDetail from "./pages/ProductDetail";
 import AdminDashboard from "./pages/protected/AdminDashboard";
 import AdminManageDoctors from "./pages/Protected/AdminManageDoctors";
 import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
@@ -36,7 +35,7 @@ function App() {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/doctor" element={<DoctorsPage />} />
         <Route path="/product" element={<MedicineProductList />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
+        {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
 
         {/* Protected Admin Routes */}
         <Route

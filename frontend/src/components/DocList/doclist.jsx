@@ -18,25 +18,12 @@ const DoctorListComponent = ({ doctor }) => {
         <p className="text-gray-600 mb-2"><strong>Specialization:</strong> {doctor.specialization || "N/A"}</p>
         <p className="text-gray-600 mb-2"><strong>Email:</strong> {doctor.email || "N/A"}</p>
         <p className="text-gray-600 mb-2"><strong>Contact:</strong> {doctor.contact || "N/A"}</p>
-        <p className="text-gray-600 mb-2">
-          <strong>Available Days:</strong> {doctor.availableDays?.join(", ") || "N/A"}
-        </p>
-        <p className="text-gray-600 mb-2">
-          <strong>Available Times:</strong> 
-          {doctor.availableTimes?.map(t => `${t.startTime} - ${t.endTime}`).join(", ") || "N/A"}
-        </p>
+       
 
         {/* Hospital & Speciality */}
         <div className="flex justify-between items-center mt-4">
           <div>
-            <p className="font-medium text-sm text-gray-500">
-              <span className="font-bold text-gray-700">Hospital:</span>{" "}
-              {doctor.hospital || "N/A"}
-            </p>
-            <p className="font-medium text-sm text-gray-500">
-              <span className="font-bold text-gray-700">Speciality:</span>{" "}
-              {doctor.specialization || "N/A"}
-            </p>
+           
           </div>
 
           {/* Book Appointment Button */}
