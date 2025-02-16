@@ -7,6 +7,7 @@ import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
 import LoginPage from "./pages/Login";
 import MedicineProductList from "./pages/Product";
+import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/protected/AdminDashboard";
 import AdminManageDoctors from "./pages/Protected/AdminManageDoctors";
 import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/home" element={<Dashboard />} />
         <Route path="/doctor" element={<DoctorsPage />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<MedicineProductList />} />
         {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
 

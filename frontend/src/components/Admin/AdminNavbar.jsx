@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 const AdminNavbar = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // ✅ Handle Search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    alert(`Searching for: ${searchQuery}`);
+  };
+
   return (
-    <nav className="bg-gray-800 p-4 flex items-center justify-between w-full shadow-md">
-      {/* Logo Section */}
+    <nav className="bg-white p-4 flex items-center justify-between w-full shadow-md">
+      {/* ✅ Logo Section */}
       <div className="text-white text-lg font-bold flex items-center">
         <img
-          src="https://via.placeholder.com/40"
-          alt="Logo"
-          className="h-10 w-10 mr-2"
+          src="/images/logo1.png" // Make sure this file exists in /public/images/
+          alt="Admin Logo"
+          className="h-12 w-15 object-contain mr-2"
         />
-        <span>Admin Panel</span>
+        
       </div>
 
-      {/* Search Bar */}
-      <div className="relative">
+      {/* ✅ Search Bar */}
+      <form onSubmit={handleSearch} className="relative">
         <input
           type="text"
           placeholder="Search..."
-          className="px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-4 py-2 w-64 rounded-lg border border--500 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white-800 text-black"
         />
-        <button className="absolute right-2 top-2 text-gray-400">
-          🔍
+        <button
+          type="submit"
+          className="absolute right-3 top-3 text-gray-300 hover:text-white transition"
+        >
+          <FaSearch />
         </button>
-      </div>
+      </form>
     </nav>
   );
 };

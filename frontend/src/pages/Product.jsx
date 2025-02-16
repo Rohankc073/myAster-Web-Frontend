@@ -14,7 +14,7 @@ const MedicineProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedManufacturer, setSelectedManufacturer] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [showPrescriptionOnly, setShowPrescriptionOnly] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);  // State to store the fetched products
@@ -24,12 +24,13 @@ const MedicineProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5003/products/all"); // API endpoint to fetch products
-        setProducts(response.data); // Update products state with the fetched data
+        const response = await axios.get("http://localhost:5003/products/all");
+        console.log("Fetched products from API:", response.data); // ✅ Debugging
+        setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
     fetchProducts();
