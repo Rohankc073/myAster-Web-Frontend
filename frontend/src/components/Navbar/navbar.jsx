@@ -27,7 +27,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-    navigate("/login");
+    navigate("/home");
   };
 
   const isDashboard = location.pathname === "/home";

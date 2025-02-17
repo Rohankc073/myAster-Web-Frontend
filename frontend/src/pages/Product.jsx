@@ -50,6 +50,51 @@ const MedicineProductList = () => {
     });
   }, [searchQuery, selectedCategory, selectedManufacturer, priceRange, showPrescriptionOnly, products]);
 
+
+  const handleAddToCart = async (product) => {
+    try {
+      // Retrieve the user data from localStorage
+      const storedUser = localStorage.getItem("user");
+  
+      if (!storedUser) {
+        alert("User not logged in. Please log in first.");
+        return;
+      }
+  
+      // Parse the JSON to get user details
+      const user = JSON.parse(storedUser);
+      const userId = user._id;  // Extract userId from parsed object
+  
+      if (!userId) {
+        alert("User ID is missing. Please log in again.");
+        return;
+      }
+  
+      // Ensure the correct product ID is sent
+      const productId = product._id || product.id;
+  
+      console.log("Adding to cart:", { userId, productId });
+  
+      const response = await axios.post("http://localhost:5003/cart/add", {
+        userId,
+        productId,
+        quantity: 1, 
+      });
+  
+      if (response.status === 200 || response.status === 201) {
+        alert("Product added to cart successfully!");
+      } else {
+        alert("Failed to add product to cart.");
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+  
+  
+  
+
   const ProductCard = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
       <img 
@@ -84,9 +129,12 @@ const MedicineProductList = () => {
           <button className="p-2 text-gray-600 hover:text-primary transition-colors">
             <FiHeart />
           </button>
-          <button className="p-2 text-gray-600 hover:text-primary transition-colors">
-            <FiShoppingCart />
-          </button>
+          <button 
+        className="p-2 text-gray-600 hover:text-primary transition-colors"
+          onClick={() => handleAddToCart(product)}
+            >
+  <FiShoppingCart />
+</button>
         </div>
       </div>
     </div>
@@ -272,9 +320,13 @@ const MedicineProductList = () => {
                   <p className="text-gray-600"><span className="font-semibold">Stock:</span> {selectedProduct.quantity} units</p>
                   <p className="text-gray-600">{selectedProduct.description}</p>
                   <div className="flex space-x-4">
-                    <button className="flex-1 bg-primary text-white py-2 rounded hover:bg-blue-600 transition-colors">
-                      Add to Cart
-                    </button>
+                  <button 
+              className="flex-1 bg-primary text-white py-2 rounded hover:bg-blue-600 transition-colors"
+            onClick={() => handleAddToCart(selectedProduct)}
+                    >
+            Add to Cart
+                </button>
+
                     <button className="flex-1 border border-primary text-primary py-2 rounded hover:bg-primary hover:text-white transition-colors">
                       Add to Wishlist
                     </button>
