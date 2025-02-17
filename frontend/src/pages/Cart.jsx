@@ -38,6 +38,8 @@ const CartPage = () => {
     fetchCart();
   }, []);
 
+
+  
   // Function to update quantity
   const updateQuantity = async (id, amount) => {
     try {
@@ -81,11 +83,7 @@ const CartPage = () => {
 
   // Function to navigate to checkout
   const handleCheckout = () => {
-    if (cartItems.length > 0) {
-      navigate("/checkout", { state: { cartItems } });
-    } else {
-      alert("Your cart is empty!");
-    }
+    navigate("/checkout");
   };
 
   return (

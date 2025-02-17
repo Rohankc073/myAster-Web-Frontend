@@ -6,10 +6,12 @@ import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
 import LoginPage from "./pages/Login";
+import OrderConfirmationPage from "./pages/OrderConfirmation";
 import MedicineProductList from "./pages/Product";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/protected/AdminDashboard";
 import AdminManageDoctors from "./pages/Protected/AdminManageDoctors";
+import AdminOrders from "./pages/Protected/AdminManageOrder";
 import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
 import ManageUsers from "./pages/Protected/AdminManageUsers";
 import SignUpPage from "./pages/Signup";
@@ -37,6 +39,9 @@ function App() {
         <Route path="/doctor" element={<DoctorsPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<MedicineProductList />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
         {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
 
         {/* Protected Admin Routes */}
