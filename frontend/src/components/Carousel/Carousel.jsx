@@ -12,6 +12,13 @@ const Carousel = () => {
     { id: 2, image: "/images/slide2.jpg", alt: "Slide 2" },
     { id: 3, image: "/images/slide3.jpg", alt: "Slide 3" },
   ];
+  // const slides = [
+  //   { id: 1, image: "images/banner.png", alt: "Slide 1" },
+  //   { id: 2, image: "images/slide2.jpg", alt: "Slide 2" },
+  //   { id: 3, image: "images/slide3.jpg", alt: "Slide 3" },
+  // ];
+  
+  
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -39,7 +46,7 @@ const Carousel = () => {
 
   return (
     <div className="relative w-full">
-      <div className="carousel min-h-[400px] relative overflow-hidden">
+      <div className="carousel w-full h-[400px] relative overflow-hidden mt-10">
         <div className="carousel-body h-full w-full">
           {slides.map((slide, index) => (
             <div
@@ -53,8 +60,8 @@ const Carousel = () => {
                 alt={slide.alt}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  console.error(`Error loading image: ${slide.image}`);
-                  e.target.src = "/images/default-placeholder.jpg"; // Fallback image
+                  // console.error(`Error loading image: ${slide.image}`);
+                  e.target.src = "/images/banner.png"; // Fallback image
                 }}
               />
             </div>

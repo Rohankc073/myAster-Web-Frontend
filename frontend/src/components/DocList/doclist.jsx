@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 
 const DoctorListComponent = ({ doctor }) => {
+  const navigate = useNavigate(); // ✅ Initialize navigate
+
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-6 bg-white shadow-md rounded-lg mb-6">
       {/* Doctor Image - Ensure correct backend path */}
@@ -18,16 +21,16 @@ const DoctorListComponent = ({ doctor }) => {
         <p className="text-gray-600 mb-2"><strong>Specialization:</strong> {doctor.specialization || "N/A"}</p>
         <p className="text-gray-600 mb-2"><strong>Email:</strong> {doctor.email || "N/A"}</p>
         <p className="text-gray-600 mb-2"><strong>Contact:</strong> {doctor.contact || "N/A"}</p>
-       
 
         {/* Hospital & Speciality */}
         <div className="flex justify-between items-center mt-4">
-          <div>
-           
-          </div>
+          <div></div>
 
           {/* Book Appointment Button */}
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            onClick={() => navigate(`/book-appointment/${doctor._id}`)}
+          >
             Book An Appointment
           </button>
         </div>

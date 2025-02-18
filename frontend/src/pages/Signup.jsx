@@ -1,6 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify"; // ✅ Import Toast
+import "react-toastify/dist/ReactToastify.css"; // ✅ Toast Styles
 import * as yup from "yup";
 import { registerUser } from "../apis/api"; // Import API function
 import Navbar from "../components/Navbar/navbar";
@@ -19,41 +21,38 @@ const SignUpPage = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   const onSubmit = async (data) => {
-    console.log("📤 Form Submitted, Data:", data); // Debugging log
+    console.log("📤 Form Submitted, Data:", data);
     setLoading(true);
-    setMessage("");
 
-    // Map form data to match backend schema
     const userData = {
-      name: data.fullName,       // Change fullName to name
+      name: data.fullName, 
       email: data.email,
       password: data.password,
-      phone: data.phoneNumber,   // Change phoneNumber to phone
-      role: "Patient",           // Default role to "Patient"
+      phone: data.phoneNumber,
+      role: "Patient",
     };
 
     try {
       console.log("📨 Sending API Request...");
-      const response = await registerUser(userData);  // POST request sent here
+      const response = await registerUser(userData);
       console.log("✅ API Response:", response);
 
       if (response?.user) {
-        setMessage("Sign up successful! Redirecting...");
-        reset(); // Clear form after successful signup
+        toast.success("Sign up successful! Redirecting... 🎉"); // ✅ Success Toast
+        reset(); // ✅ Clear Form
 
-        // Redirect to login page after 2 seconds
+        // ✅ Redirect after 3 seconds
         setTimeout(() => {
           window.location.href = "/login";
-        }, 2000);
+        }, 3000);
       } else {
-        setMessage("Signup failed. Please try again.");
+        toast.error("Signup failed. Please try again."); // ❌ Error Toast
       }
     } catch (error) {
       console.error("❌ Signup Error:", error);
-      setMessage(error.response?.data?.message || "Signup failed. Please try again.");
+      toast.error(error.response?.data?.message || "Signup failed. Please try again."); // ❌ Error Toast
     } finally {
       setLoading(false);
     }
@@ -62,20 +61,26 @@ const SignUpPage = () => {
   return (
     <>
       <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} /> {/* ✅ Toast Container */}
+
       <div className="bg-white-50 min-h-screen flex flex-col relative">
         <div className="relative flex flex-col lg:flex-row items-center justify-between max-w-[1400px] mx-auto px-20 mt-1px lg:mt-32 z-10">
           
-          {/* Left Section */}
-          <div className="text-center lg:text-left max-w-lg z-20 lg:pr-32 lg:w-1/2 lg:ml-[-10px] lg:mt-[-80px]">
-            <h1 className="text-4xl font-extrabold text-gray-900 leading-snug">
-              It’s important to take care of your{" "}
-              <span className="text-blue-600">health</span> even if you seem healthy.
-            </h1>
-            <p className="mt-4 text-gray-600">Your Health App.</p>
-            <a href="/login" className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700">
-              Log In
-            </a>
-          </div>
+        {/* Left Section */}
+<div className="text-center lg:text-left max-w-lg z-20 lg:pr-32 lg:w-1/2 lg:ml-[-10px] lg:mt-[-80px]">
+  <h1 className="text-4xl font-extrabold text-gray-900 leading-snug">
+    It’s important to take care of your{" "}
+    <span className="text-blue-600">health</span> even if you seem healthy.
+  </h1>
+  <p className="mt-4 text-gray-600">Your Health App.</p>
+  <a 
+  href="/login" 
+  className="mt-6 inline-block px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-lg hover:bg-blue-700"
+>
+  Log In
+</a>
+</div>
+
 
           {/* Right Section - Form */}
           <div className="max-w-lg bg-white shadow-lg rounded-lg p-5 z-20 lg:ml-[435px] lg:w-[45%]">
@@ -135,8 +140,6 @@ const SignUpPage = () => {
                 {loading ? "Signing Up..." : "Sign Up"}
               </button>
             </form>
-
-            {message && <p className="text-center mt-3 text-red-500">{message}</p>}
           </div>
         </div>
 

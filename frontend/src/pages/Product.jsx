@@ -98,8 +98,8 @@ const MedicineProductList = () => {
   const ProductCard = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
       <img 
-        src={product.image} 
-        alt={product.name}
+src={`http://localhost:5003${product.image}`}
+alt={product.name}
         className="w-full h-48 object-cover rounded-md mb-4"
         loading="lazy"
       />

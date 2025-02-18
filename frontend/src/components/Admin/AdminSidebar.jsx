@@ -76,7 +76,7 @@ const AdminSidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/admin/reports" className="flex items-center p-3 rounded-lg hover:bg-[#2C3E50]">
+                <Link to="/admin/appointment" className="flex items-center p-3 rounded-lg hover:bg-[#2C3E50]">
                   <FaChartBar className="w-5 h-5 text-gray-400" />
                   <span className="ml-3">Sales Reports</span>
                 </Link>

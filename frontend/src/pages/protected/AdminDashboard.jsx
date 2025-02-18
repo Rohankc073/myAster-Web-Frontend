@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaBox, FaShoppingCart, FaUserMd, FaUsers } from "react-icons/fa";
+import { FaBox, FaCalendarCheck, FaShoppingCart, FaUserMd, FaUsers } from "react-icons/fa"; // ✅ Import Appointment Icon
 import AdminNavbar from "../../components/Admin/AdminNavbar";
 import AdminSidebar from "../../components/Admin/AdminSidebar";
 
@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
+  const [totalAppointments, setTotalAppointments] = useState(0); // ✅ State for Appointments
 
   const token = localStorage.getItem("token");
 
@@ -57,10 +58,22 @@ const AdminDashboard = () => {
       }
     };
 
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get("http://localhost:5003/appointments/getAll", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setTotalAppointments(response.data.length);
+      } catch (error) {
+        console.error("❌ Error fetching appointments:", error);
+      }
+    };
+
     fetchUsers();
     fetchProducts();
     fetchDoctors();
     fetchOrders();
+    fetchAppointments(); // ✅ Fetch appointments
   }, []);
 
   return (
@@ -76,7 +89,7 @@ const AdminDashboard = () => {
 
         {/* ✅ Ensuring proper margin to avoid overlap */}
         <div className="p-8 bg-gray-100 flex-1">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Total Users */}
             <div className="bg-blue-500 text-white rounded-lg p-6 flex items-center shadow-md">
               <FaUsers className="text-4xl mr-4" />
@@ -110,6 +123,15 @@ const AdminDashboard = () => {
               <div>
                 <h2 className="text-xl font-semibold">Total Orders</h2>
                 <p className="text-2xl font-bold">{totalOrders}</p>
+              </div>
+            </div>
+
+            {/* ✅ Total Appointments */}
+            <div className="bg-yellow-500 text-white rounded-lg p-6 flex items-center shadow-md">
+              <FaCalendarCheck className="text-4xl mr-4" />
+              <div>
+                <h2 className="text-xl font-semibold">Total Appointments</h2>
+                <p className="text-2xl font-bold">{totalAppointments}</p>
               </div>
             </div>
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // For redirection
+import { toast, ToastContainer } from "react-toastify"; // ✅ Import Toast
+import "react-toastify/dist/ReactToastify.css"; // ✅ Import Toast Styles
 import { loginUser } from "../apis/api";
 import Navbar from "../components/Navbar/navbar";
 
@@ -36,7 +38,12 @@ const LoginPage = () => {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
 
-        alert("Login successful! Redirecting...");
+        // ✅ Show toast message based on user role
+        if (response.user.role === "Admin") {
+          toast.success("Welcome Admin!", { position: "top-right" });
+        } else {
+          toast.success("Login successful!", { position: "top-right" });
+        }
 
         // ✅ **Ensure Navigation Happens After State Updates**
         setTimeout(() => {
@@ -45,19 +52,21 @@ const LoginPage = () => {
           } else {
             navigate("/home");
           }
-        }, 100); // Small delay ensures navigation occurs properly
+        }, 1000); // Wait for toast message before redirecting
       } else {
         throw new Error("Token not received!");
       }
     } catch (error) {
       console.error("❌ Login Failed:", error);
-      alert("Login failed! Please check your credentials.");
+      toast.error("Login failed! Please check your credentials.", { position: "top-right" });
     }
   }
 
   return (
     <>
       <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} /> {/* ✅ Toast Container */}
+      
       <div className="bg-white-50 min-h-screen flex flex-col relative">
         {/* Main Section */}
         <div className="relative flex flex-col lg:flex-row items-center justify-between max-w-[1400px] mx-auto px-20 mt-20 lg:mt-32 z-10">
