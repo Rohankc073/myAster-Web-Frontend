@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import BookAppointmentPage from "./pages/Appointment";
+import AppointmentSuccess from "./pages/AppointmentSuccess";
 import CartPage from "./pages/Cart";
 import CheckoutPage from "./pages/Checkout";
 import ContactUs from "./pages/ContactUs";
@@ -18,7 +19,6 @@ import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
 import ManageUsers from "./pages/Protected/AdminManageUsers";
 import SignUpPage from "./pages/Signup";
 import ProtectedRoute from "./routes/ProtectedRoutes";
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -46,6 +46,7 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/appointment" element={<ManageAppointmentsPage />} />
         <Route path="/book-appointment/:doctorId" element={<BookAppointmentPage />} />
+        <Route path="/appointment-success" element={<AppointmentSuccess />} />
         {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
 
         {/* Protected Admin Routes */}

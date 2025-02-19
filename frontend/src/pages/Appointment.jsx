@@ -53,7 +53,7 @@ const BookAppointmentPage = () => {
       alert("Please log in to book an appointment.");
       return;
     }
-
+  
     const appointmentData = {
       userId: user._id,
       doctorId,
@@ -63,15 +63,15 @@ const BookAppointmentPage = () => {
       date: formData.date,
       time: formData.time,
     };
-
+  
     try {
       await axios.post("http://localhost:5003/appointments/schedule", appointmentData);
-      alert("Appointment booked successfully!");
-      navigate("/appointments");
+      navigate("/appointment-success"); // ✅ Redirect after successful booking
     } catch (err) {
       alert("Error booking appointment. Please try again.");
     }
   };
+  
 
   return (
     <>
