@@ -98,8 +98,8 @@ const MedicineProductList = () => {
   const ProductCard = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
       <img 
-src={`http://localhost:5003${product.image}`}
-alt={product.name}
+        src={product.image ? product.image : "/images/default-medicine.png"} 
+        alt={product.name}
         className="w-full h-48 object-cover rounded-md mb-4"
         loading="lazy"
       />
@@ -108,7 +108,7 @@ alt={product.name}
         <p className="text-sm text-gray-600">{product.genericName}</p>
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
         <div className="flex justify-between items-center">
-          <span className="text-primary font-bold">${product.price}</span>
+          <span className="text-primary font-bold">NRP {product.price}</span>
           <span className={`text-sm ${product.quantity > 0 ? "text-green-500" : "text-red-500"}`}>
             {product.quantity > 0 ? "In Stock" : "Out of Stock"}
           </span>
@@ -130,11 +130,11 @@ alt={product.name}
             <FiHeart />
           </button>
           <button 
-        className="p-2 text-gray-600 hover:text-primary transition-colors"
-          onClick={() => handleAddToCart(product)}
-            >
-  <FiShoppingCart />
-</button>
+            className="p-2 text-gray-600 hover:text-primary transition-colors"
+            onClick={() => handleAddToCart(product)}
+          >
+            <FiShoppingCart />
+          </button>
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@ alt={product.name}
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
         <p className="text-sm text-gray-700">{product.description}</p>
         <div className="flex justify-between items-center">
-          <span className="text-primary font-bold">${product.price}</span>
+          <span className="text-primary font-bold">NRP{product.price}</span>
           <div className="flex space-x-2">
             <button 
               className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
