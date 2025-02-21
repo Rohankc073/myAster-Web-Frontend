@@ -195,24 +195,43 @@ const AdminManageProducts = () => {
 
         {/* Add/Edit Medicine Modal */}
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-              <h2 className="text-xl font-bold mb-4">{editingProduct ? "Edit Medicine" : "Add Medicine"}</h2>
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+      
+      {/* Back/Cancel Button to close the modal */}
+      <button onClick={() => setShowModal(false)} 
+              className="text-gray-700 hover:text-gray-900 flex items-center mb-4">
+        ⬅ Back
+      </button>
 
-              <input type="text" name="name" placeholder="Medicine Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.name} />
-              <input type="text" name="genericName" placeholder="Generic Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.genericName} />
-              <input type="text" name="manufacturer" placeholder="Manufacturer" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.manufacturer} />
-              <input type="number" name="price" placeholder="Price" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.price} />
-              <input type="number" name="quantity" placeholder="Quantity" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.quantity} />
-              <input type="file" name="image" className="w-full border p-2 mb-2" onChange={handleImageChange} />
-              <textarea name="description" placeholder="Description" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.description} />
+      <h2 className="text-xl font-bold mb-4">{editingProduct ? "Edit Medicine" : "Add Medicine"}</h2>
 
-              <button onClick={handleSubmit} className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
-                Save
-              </button>
-            </div>
-          </div>
-        )}
+      <input type="text" name="name" placeholder="Medicine Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.name} />
+      <input type="text" name="genericName" placeholder="Generic Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.genericName} />
+      <input type="text" name="manufacturer" placeholder="Manufacturer" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.manufacturer} />
+      <input type="number" name="price" placeholder="Price" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.price} />
+      <input type="number" name="quantity" placeholder="Quantity" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.quantity} />
+      <input type="file" name="image" className="w-full border p-2 mb-2" onChange={handleImageChange} />
+      <textarea name="description" placeholder="Description" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.description} />
+
+      <div className="flex justify-between">
+        {/* Cancel Button to close modal */}
+        <button onClick={() => setShowModal(false)} 
+                className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500">
+          Cancel
+        </button>
+
+        {/* Save Button */}
+        <button onClick={handleSubmit} 
+                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+          Save
+        </button>
+      </div>
+      
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );

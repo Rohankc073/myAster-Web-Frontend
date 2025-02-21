@@ -74,7 +74,8 @@ const ManageAppointmentsPage = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-200 text-gray-700">
-                    <th className="p-3 text-left">Patient</th>
+                    <th className="p-3 text-left">Patient</th> {/* ✅ Show User Name */}
+                    <th className="p-3 text-left">Email</th> {/* ✅ Show User Email */}
                     <th className="p-3 text-left">Doctor</th>
                     <th className="p-3 text-left">Date</th>
                     <th className="p-3 text-left">Time</th>
@@ -85,7 +86,10 @@ const ManageAppointmentsPage = () => {
                 <tbody>
                   {appointments.map((appointment) => (
                     <tr key={appointment._id} className="border-b">
-                      <td className="p-3">{appointment.patientName}</td>
+                      <td className="p-3 font-semibold">
+                        {appointment.userId?.name || "Unknown Patient"} {/* ✅ Show User Name */}
+                      </td>
+                      <td className="p-3">{appointment.userId?.email || "No Email"}</td> {/* ✅ Show User Email */}
                       <td className="p-3">{appointment.doctorName}</td>
                       <td className="p-3">{appointment.date}</td>
                       <td className="p-3">{appointment.time}</td>

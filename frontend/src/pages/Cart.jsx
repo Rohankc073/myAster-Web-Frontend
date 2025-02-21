@@ -107,7 +107,12 @@ const CartPage = () => {
                   {cartItems.map((item) => (
                     <div key={item.productId} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
                       <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                        <img className="h-20 w-20" src={item.image} alt={item.name} />
+                      <img
+  src={item.productId?.image || "https://via.placeholder.com/80"} // ✅ Fetch product image correctly
+  alt={item.productId?.name}
+  className="w-20 h-20 rounded-lg object-cover border"
+/>
+
 
                         {/* Quantity Control */}
                         <div className="flex items-center md:justify-end">
@@ -193,11 +198,11 @@ const CartPage = () => {
 
                   {/* Checkout Button */}
                   <button
-                    onClick={handleCheckout}
-                    className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
-                  >
-                    Proceed to Checkout
-                  </button>
+  onClick={handleCheckout}
+  className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+>
+  Proceed to Checkout
+</button>
                 </div>
               </div>
             </div>

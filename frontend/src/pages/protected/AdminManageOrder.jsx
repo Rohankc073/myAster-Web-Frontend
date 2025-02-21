@@ -42,12 +42,12 @@ const AdminOrders = () => {
   return (
     <>
       <div className="flex min-h-screen bg-gray-100">
-        {/* ✅ Fix: Sidebar takes proper width */}
+        {/* ✅ Sidebar */}
         <div className="w-64">
           <AdminSidebar />
         </div>
 
-        {/* ✅ Fix: Main content takes full width */}
+        {/* ✅ Main Content */}
         <div className="flex-1 p-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Manage Orders</h2>
 
@@ -59,7 +59,8 @@ const AdminOrders = () => {
                 <thead>
                   <tr className="bg-blue-600 text-white text-left">
                     <th className="border p-3">Order ID</th>
-                    <th className="border p-3">User</th>
+                    <th className="border p-3">User Name</th>
+                    <th className="border p-3">User Email</th>
                     <th className="border p-3">Total</th>
                     <th className="border p-3">Shipping Address</th>
                     <th className="border p-3">Status</th>
@@ -71,6 +72,7 @@ const AdminOrders = () => {
                     <tr key={order._id} className="border hover:bg-gray-100 transition">
                       <td className="border p-3 text-sm">{order._id}</td>
                       <td className="border p-3 text-sm font-semibold">{order.userId?.name || "Unknown"}</td>
+                      <td className="border p-3 text-sm">{order.userId?.email || "No Email"}</td>
                       <td className="border p-3 text-sm">${order.total}</td>
                       <td className="border p-3 text-sm">{order.shippingAddress}</td>
                       <td className="border p-3">

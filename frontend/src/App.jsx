@@ -7,6 +7,7 @@ import CheckoutPage from "./pages/Checkout";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
+import History from "./pages/History";
 import LoginPage from "./pages/Login";
 import OrderConfirmationPage from "./pages/OrderConfirmation";
 import MedicineProductList from "./pages/Product";
@@ -38,6 +39,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/home" element={<Dashboard />} />
+        <Route path="/history" element={<History />} />
         <Route path="/doctor" element={<DoctorsPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<MedicineProductList />} />
