@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // For redirection
-import { toast, ToastContainer } from "react-toastify"; // ✅ Import Toast
-import "react-toastify/dist/ReactToastify.css"; // ✅ Import Toast Styles
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { loginUser } from "../apis/api";
 import Navbar from "../components/Navbar/navbar";
 
+// ✅ Import Icons
+import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
+
 const LoginPage = () => {
-  const navigate = useNavigate(); // Initialize navigation hook
+  const navigate = useNavigate(); 
 
   // State for form inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
 
   // ✅ Check if User is Already Logged In on Load
   useEffect(() => {
@@ -20,12 +24,12 @@ const LoginPage = () => {
     if (storedUser && token) {
       const user = JSON.parse(storedUser);
       if (user.role === "Admin") {
-        navigate("/admin"); // Redirect Admin
+        navigate("/admin"); 
       } else {
-        navigate("/home"); // Redirect Normal User
+        navigate("/home"); 
       }
     }
-  }, [navigate]); // Runs only on component mount
+  }, [navigate]);
 
   // ✅ Handle login form submission
   async function handleLogin(e) {
@@ -34,25 +38,22 @@ const LoginPage = () => {
       const response = await loginUser({ email, password });
 
       if (response.token) {
-        // ✅ Save token & user info in localStorage
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
 
-        // ✅ Show toast message based on user role
         if (response.user.role === "Admin") {
           toast.success("Welcome Admin!", { position: "top-right" });
         } else {
           toast.success("Login successful!", { position: "top-right" });
         }
 
-        // ✅ **Ensure Navigation Happens After State Updates**
         setTimeout(() => {
           if (response.user.role === "Admin") {
             navigate("/admin");
           } else {
             navigate("/home");
           }
-        }, 1000); // Wait for toast message before redirecting
+        }, 1000);
       } else {
         throw new Error("Token not received!");
       }
@@ -65,7 +66,7 @@ const LoginPage = () => {
   return (
     <>
       <Navbar />
-      <ToastContainer position="top-right" autoClose={3000} /> {/* ✅ Toast Container */}
+      <ToastContainer position="top-right" autoClose={3000} /> 
       
       <div className="bg-white-50 min-h-screen flex flex-col relative">
         {/* Main Section */}
@@ -93,30 +94,46 @@ const LoginPage = () => {
               View all of your reports and scheduled health exams in one location.
             </p>
             <form onSubmit={handleLogin}>
-              <div className="mb-4">
+              {/* Email Field with Icon */}
+              <div className="mb-4 relative">
+                <FaEnvelope className="absolute left-3 top-4 text-gray-500" />
                 <input
                   type="email"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full border border-gray-300 rounded-lg py-3 pl-10 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
                 />
               </div>
-              <div className="mb-4">
+
+              {/* Password Field with Icon & Eye Toggle */}
+              <div className="mb-4 relative">
+                <FaLock className="absolute left-3 top-4 text-gray-500" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full border border-gray-300 rounded-lg py-3 pl-10 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
                 />
+                {/* Eye Button */}
+                <button
+  type="button"
+  aria-label="toggle password visibility"
+  className="absolute right-3 top-4 text-gray-500 focus:outline-none"
+  onClick={() => setShowPassword(!showPassword)}
+>
+  {showPassword ? <FaEyeSlash /> : <FaEye />}
+</button>
               </div>
+
               <div className="flex justify-between text-sm text-blue-600 mb-4">
                 <a href="#">Forget Password?</a>
                 <a href="/signup">Register</a>
               </div>
+
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white py-3 rounded-lg shadow-lg font-medium hover:bg-blue-700"
@@ -127,7 +144,7 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {/* Background Gradient */}
+        {/* ✅ Matched Background Gradient with Signup Page */}
         <div className="absolute bottom-0 left-0 w-full h-[600px] bg-gradient-to-t from-blue-200 to-transparent z-[-1]"></div>
 
         {/* Doctor Image */}
