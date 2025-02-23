@@ -128,7 +128,7 @@ const LoginPage = () => {
         </div>
 
         {/* Background Gradient */}
-        <div className="absolute bottom-0 left-0 w-full h-[600px] bg-gradient-to-t from-blue-100 to-transparent z-1"></div>
+        <div className="absolute bottom-0 left-0 w-full h-[600px] bg-gradient-to-t from-blue-200 to-transparent z-[-1]"></div>
 
         {/* Doctor Image */}
         <div className="absolute bottom-0 w-full flex justify-center">

@@ -7,6 +7,7 @@ import CheckoutPage from "./pages/Checkout";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
+import ForgotPassword from "./pages/ForgetPassword"; // ✅ Import Forgot Password Page
 import History from "./pages/History";
 import LoginPage from "./pages/Login";
 import OrderConfirmationPage from "./pages/OrderConfirmation";
@@ -18,6 +19,7 @@ import AdminManageDoctors from "./pages/Protected/AdminManageDoctors";
 import AdminOrders from "./pages/Protected/AdminManageOrder";
 import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
 import ManageUsers from "./pages/Protected/AdminManageUsers";
+import ResetPassword from "./pages/ResetPassword";
 import SignUpPage from "./pages/Signup";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 function App() {
@@ -41,6 +43,8 @@ function App() {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/history" element={<History />} />
         <Route path="/doctor" element={<DoctorsPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} /> 
+        <Route path="/reset-password/:token" element={<ResetPassword />} /> 
         <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<MedicineProductList />} />
         <Route path="/checkout" element={<CheckoutPage />} />
