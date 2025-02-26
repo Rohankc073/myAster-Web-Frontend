@@ -7,7 +7,7 @@ import CheckoutPage from "./pages/Checkout";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/DashBoard";
 import DoctorsPage from "./pages/Doctors";
-import ForgotPassword from "./pages/ForgetPassword"; // ✅ Import Forgot Password Page
+import ForgotPassword from "./pages/ForgotPassword"; // ✅ Import Forgot Password Page
 import History from "./pages/History";
 import LoginPage from "./pages/Login";
 import OrderConfirmationPage from "./pages/OrderConfirmation";
@@ -33,6 +33,7 @@ function App() {
   return (
     <Router>
       <Routes>
+
         {/* Public Routes */}
         <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
@@ -43,8 +44,9 @@ function App() {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/history" element={<History />} />
         <Route path="/doctor" element={<DoctorsPage />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} /> 
-        <Route path="/reset-password/:token" element={<ResetPassword />} /> 
+
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<MedicineProductList />} />
         <Route path="/checkout" element={<CheckoutPage />} />

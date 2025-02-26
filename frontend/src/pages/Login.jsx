@@ -130,7 +130,7 @@ const LoginPage = () => {
               </div>
 
               <div className="flex justify-between text-sm text-blue-600 mb-4">
-                <a href="#">Forget Password?</a>
+                <a href="/forgot-password">Forget Password?</a>
                 <a href="/signup">Register</a>
               </div>
 
