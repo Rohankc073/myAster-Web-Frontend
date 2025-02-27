@@ -1,6 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaBox, FaCalendarCheck, FaShoppingCart, FaUserMd, FaUsers } from "react-icons/fa"; // ✅ Import Appointment Icon
+import { FaBox, FaCalendarCheck, FaShoppingCart, FaUserMd, FaUsers } from "react-icons/fa";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts"; // ✅ Import Recharts
 import AdminNavbar from "../../components/Admin/AdminNavbar";
 import AdminSidebar from "../../components/Admin/AdminSidebar";
 
@@ -9,7 +18,8 @@ const AdminDashboard = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
-  const [totalAppointments, setTotalAppointments] = useState(0); // ✅ State for Appointments
+  const [totalAppointments, setTotalAppointments] = useState(0);
+  const [userStats, setUserStats] = useState([]); // ✅ User signup stats
 
   const token = localStorage.getItem("token");
 
@@ -20,6 +30,21 @@ const AdminDashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTotalUsers(response.data.length);
+
+        // ✅ Process Data for Chart 📊
+        const userCounts = {};
+        response.data.forEach((user) => {
+          const date = user.createdAt.split("T")[0]; // Extract date part only
+          userCounts[date] = (userCounts[date] || 0) + 1; // Count users per day
+        });
+
+        // ✅ Format data for Recharts
+        const chartData = Object.keys(userCounts).map((date) => ({
+          date,
+          users: userCounts[date],
+        }));
+
+        setUserStats(chartData);
       } catch (error) {
         console.error("❌ Error fetching users:", error);
       }
@@ -73,21 +98,21 @@ const AdminDashboard = () => {
     fetchProducts();
     fetchDoctors();
     fetchOrders();
-    fetchAppointments(); // ✅ Fetch appointments
+    fetchAppointments();
   }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* ✅ Sidebar with fixed width */}
+      {/* ✅ Sidebar */}
       <div className="w-64">
         <AdminSidebar />
       </div>
 
-      {/* ✅ Main Content taking full space */}
+      {/* ✅ Main Content */}
       <div className="flex-1 flex flex-col">
         <AdminNavbar />
 
-        {/* ✅ Ensuring proper margin to avoid overlap */}
+        {/* ✅ Dashboard Cards */}
         <div className="p-8 bg-gray-100 flex-1">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Total Users */}
@@ -134,7 +159,22 @@ const AdminDashboard = () => {
                 <p className="text-2xl font-bold">{totalAppointments}</p>
               </div>
             </div>
+          </div>
 
+          {/* ✅ User Growth Chart 📊 */}
+          <div className="bg-white shadow-md rounded-lg p-6 mt-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">User Signups Over Time</h3>
+
+            {/* ✅ Chart */}
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={userStats}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line type="monotone" dataKey="users" stroke="#4F46E5" strokeWidth={3} dot={{ r: 5 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
