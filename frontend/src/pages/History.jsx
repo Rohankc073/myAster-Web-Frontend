@@ -71,15 +71,16 @@ const History = () => {
   return (
     <>
     <Navbar />
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 mt-40">
       {/* 📌 Appointments Section */}
       <h2 className="text-3xl font-bold text-gray-800 mb-4">Your Appointments</h2>
       {appointments.length > 0 ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {appointments.map((appointment) => (
             <div key={appointment._id} className="bg-white shadow-lg p-6 rounded-lg border border-gray-200">
-              <h3 className="text-lg font-bold text-blue-600">{appointment.doctorName}</h3>
-              <p className="text-gray-600">{appointment.problemDescription}</p>
+              <h3 className="text-lg font-bold text-blue-600"> Dr.{appointment.doctorName}</h3>
+
+              <p className="text-gray-600"> Problem: {appointment.problemDescription}</p>
               <div className="mt-3 text-gray-700">
                 <p><strong>Date:</strong> {new Date(appointment.date).toLocaleDateString()}</p>
                 <p><strong>Time:</strong> {appointment.time}</p>
@@ -98,7 +99,7 @@ const History = () => {
         <div className="space-y-6">
           {orders.map((order) => (
             <div key={order._id} className="bg-white shadow-lg p-6 rounded-lg border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900">Order ID: {order._id}</h3>
+              {/* <h3 className="text-lg font-bold text-gray-900">Order ID: {order._id}</h3> */}
               <p className="text-gray-600"><strong>Status:</strong> <span className="text-green-600">{order.status}</span></p>
               <p className="text-gray-600"><strong>Placed On:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
 

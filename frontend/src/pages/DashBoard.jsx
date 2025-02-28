@@ -62,44 +62,60 @@ const Dashboard = () => {
 
         {/* Consulting Specialists */}
         <section className="py-20">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-3xl font-extrabold text-gray-800 mb-8">
-              Our Consulting Specialists
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { title: "Consulting", icon: "/icons/consulting.svg" },
-                { title: "Heart Lungs", icon: "/icons/heart-lungs.svg" },
-                { title: "Supplement", icon: "/icons/supplement.svg" },
-                { title: "Mental Health", icon: "/icons/mental-health.svg" },
-              ].map((specialist, index) => (
-                <div
-                  key={index}
-                  className={`p-6 border rounded-lg shadow-lg ${index === 1 ? "bg-blue-50 border-blue-600" : "bg-white"
-                    }`}
-                >
-                  <div className="flex justify-center items-center w-16 h-16 rounded-full bg-blue-100 mx-auto mb-4">
-                    <img
-                      src={specialist.icon}
-                      alt={specialist.title}
-                      className="w-8 h-8"
-                    />
-                  </div>
-                  <h3
-                    className={`text-lg font-bold mb-2 text-center ${index === 1 ? "text-blue-600" : "text-gray-800"
-                      }`}
-                  >
-                    {specialist.title}
-                  </h3>
-                  <p className="text-gray-600 text-center">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem velit
-                    viverra amet faucibus.
-                  </p>
-                </div>
-              ))}
-            </div>
+  <div className="max-w-7xl mx-auto px-6">
+    <h2 className="text-3xl font-extrabold text-gray-800 mb-8">
+      Our Consulting Specialists
+    </h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {[
+        { 
+          title: "Consulting", 
+          description: "Expert advice from top medical professionals for general health concerns.",
+          icon: "/images/54.jpg" // ✅ Use an image of a doctor consulting with a patient 
+        },
+        { 
+          title: "Heart & Lungs", 
+          description: "Specialized care for cardiovascular and pulmonary conditions from leading experts.",
+          icon: "/images/heart.jpg" // ✅ Use an image of a cardiologist with a heart monitor or lungs scan
+        },
+        { 
+          title: "Supplement", 
+          description: "Guidance on dietary supplements, vitamins, and nutrition for a healthier lifestyle.",
+          icon: "/images/supplement.jpg" // ✅ Use an image of vitamins and health supplements in bottles
+        },
+        { 
+          title: "Mental Health", 
+          description: "Support and treatment for stress, anxiety, and mental well-being.",
+          icon: "/images/mental.jpg" // ✅ Use an image of a psychologist talking to a patient
+        },
+      ].map((specialist, index) => (
+        <div
+          key={index}
+          className={`p-6 border rounded-lg shadow-lg ${index === 1 ? "bg-blue-50 border-blue-600" : "bg-white"
+            }`}
+        >
+          <div className="flex justify-center items-center w-16 h-16 rounded-full bg-blue-100 mx-auto mb-4">
+            <img
+              src={specialist.icon}
+              alt={specialist.title}
+              className="w-full h-full object-cover rounded-full"
+            />
           </div>
-        </section>
+          <h3
+            className={`text-lg font-bold mb-2 text-center ${index === 1 ? "text-blue-600" : "text-gray-800"
+              }`}
+          >
+            {specialist.title}
+          </h3>
+          <p className="text-gray-600 text-center">
+            {specialist.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
 
         {/* Why You Choose Us */}

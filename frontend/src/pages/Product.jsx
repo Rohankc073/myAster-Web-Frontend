@@ -154,7 +154,7 @@ const MedicineProductList = () => {
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
         <p className="text-sm text-gray-700">{product.description}</p>
         <div className="flex justify-between items-center">
-          <span className="text-primary font-bold">NRP{product.price}</span>
+          <span className="text-primary font-bold">NRP {product.price}</span>
           <div className="flex space-x-2">
             <button 
               className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"

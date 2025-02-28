@@ -13,17 +13,7 @@ test.describe('Login Page Tests', () => {
         await expect(page.locator('button:has-text("Login")')).toBeVisible();
     });
 
-    // test('should successfully log in with valid Admin credentials', async ({ page }) => {
-    //     // Fill in the email and password
-    //     await page.fill('input[placeholder="Email"]', 'admin@gmail.com');
-    //     await page.fill('input[placeholder="Password"]', 'admin123');
-
-    //     // Click the login button
-    //     await page.click('button:has-text("Login")');
-
-    //     // Wait for redirection to Admin dashboard
-    //     await expect(page).toHaveURL('http://localhost:5173/admin');
-    // });
+ 
 
     test('should successfully log in with valid Patient credentials', async ({ page }) => {
         // Fill in the email and password

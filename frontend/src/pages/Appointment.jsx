@@ -57,15 +57,17 @@ const BookAppointmentPage = () => {
     const appointmentData = {
       userId: user._id,
       doctorId,
+      doctorName: doctor?.name,
+      specialization: doctor?.specialization,
       age: formData.age,
       gender: formData.gender,
       problemDescription: formData.problemDescription,
       date: formData.date,
       time: formData.time,
     };
-  
     try {
       await axios.post("http://localhost:5003/appointments/schedule", appointmentData);
+      localStorage.setItem("appointment", JSON.stringify(appointmentData));
       navigate("/appointment-success"); // ✅ Redirect after successful booking
     } catch (err) {
       alert("Error booking appointment. Please try again.");

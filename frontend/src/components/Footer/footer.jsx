@@ -12,7 +12,7 @@ const Footer = () => {
           
         </a>
               <p className="py-8 text-sm text-gray-500 lg:max-w-xs text-center lg:text-left">
-                Trusted in more than 100 countries & 5 million customers. Have any query?
+                Trusted by 1000+ customers around the country?
               </p>
               <a
                 href="javascript:;"
@@ -23,7 +23,7 @@ const Footer = () => {
             </div>
             {/* Pagedone Section */}
             <div className="lg:mx-auto text-left">
-              <h4 className="text-lg text-gray-900 font-medium mb-7">Pagedone</h4>
+              <h4 className="text-lg text-gray-900 font-medium mb-7">myAster</h4>
               <ul className="text-sm transition-all duration-500">
                 <li className="mb-6">
                   <a href="javascript:;" className="text-gray-600 hover:text-gray-900">
@@ -37,28 +37,26 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="javascript:;" className="text-gray-600 hover:text-gray-900">
-                    Pricing
+                    Products
                   </a>
                 </li>
               </ul>
             </div>
             {/* Products Section */}
             <div className="lg:mx-auto text-left">
-              <h4 className="text-lg text-gray-900 font-medium mb-7">Products</h4>
+              <h4 className="text-lg text-gray-900 font-medium mb-7">Doctors</h4>
               <ul className="text-sm transition-all duration-500">
                 <li className="mb-6">
-                  <a href="javascript:;" className="text-gray-600 hover:text-gray-900">
-                    Figma UI System
-                  </a>
+                
                 </li>
                 <li className="mb-6">
                   <a href="javascript:;" className="text-gray-600 hover:text-gray-900">
-                    Icons Assets
+                    Specialities
                   </a>
                 </li>
                 <li>
                   <a href="javascript:;" className="text-gray-600 hover:text-gray-900">
-                    Responsive Blocks
+                    Consultation
                   </a>
                 </li>
               </ul>
@@ -95,7 +93,7 @@ const Footer = () => {
                 className="flex items-center justify-center gap-2 border border-blue-700 rounded-full py-3 px-6 w-fit lg:mx-0 text-sm text-blue-700 font-semibold transition-all duration-500 hover:bg-indigo-50"
               >
                 Subscribe
-                <svg
+                {/* <svg
                   width="15"
                   height="12"
                   viewBox="0 0 15 12"
@@ -109,7 +107,7 @@ const Footer = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                </svg>
+                </svg> */}
               </a>
             </div>
           </div>
@@ -117,31 +115,9 @@ const Footer = () => {
           <div className="py-7 border-t border-gray-200">
             <div className="flex items-center justify-center flex-col lg:justify-between lg:flex-row">
               <span className="text-sm text-gray-500">
-                ©<a href="https://pagedone.io/">pagedone</a> 2024, All rights reserved.
+                ©<a >myAster</a> 2025, All rights reserved.
               </span>
-              <div className="flex mt-4 space-x-4 sm:justify-center lg:mt-0">
-                {/* Social Media Icons */}
-                <a
-                  href="javascript:;"
-                  className="w-8 h-8 rounded-full flex justify-center items-center bg-[#33CCFF] hover:bg-gray-900"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
-                    {/* Add Icon */}
-                  </svg>
-                </a>
-                <a
-                  href="javascript:;"
-                  className="w-8 h-8 rounded-full flex justify-center items-center bg-[#337FFF] hover:bg-gray-900"
-                >
-                  {/* Add Icon */}
-                </a>
-                <a
-                  href="javascript:;"
-                  className="w-8 h-8 rounded-full flex justify-center items-center bg-[#FF0000] hover:bg-gray-900"
-                >
-                  {/* Add Icon */}
-                </a>
-              </div>
+              
             </div>
           </div>
         </div>

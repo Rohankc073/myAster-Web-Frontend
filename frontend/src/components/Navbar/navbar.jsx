@@ -32,6 +32,10 @@ const Navbar = () => {
 
   const isDashboard = location.pathname === "/home";
 
+  // Function to set active link dynamically
+  const getNavLinkClass = (path) =>
+    location.pathname === path ? "text-blue-700 font-medium" : "text-gray-700 font-medium hover:text-blue-500";
+
   return (
     <nav className={`${isDashboard ? "bg-blue-80" : "bg-white"} fixed w-full z-50 top-0 transition-colors duration-300`}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -40,11 +44,11 @@ const Navbar = () => {
         </a>
 
         <div className="items-center hidden md:flex space-x-8">
-          <a href="/home" className="text-blue-700 font-medium hover:text-blue-500">Home</a>
-          <a href="/doctor" className="text-gray-700 font-medium hover:text-blue-500">Doctor</a>
-          <a href="/product" className="text-gray-700 font-medium hover:text-blue-500">Medicine</a>
-          <a href="/history" className="text-gray-700 font-medium hover:text-blue-500">History</a>
-          <a href="/contactus" className="text-gray-700 font-medium hover:text-blue-500">Contact Us</a>
+          <a href="/home" className={getNavLinkClass("/home")}>Home</a>
+          <a href="/doctor" className={getNavLinkClass("/doctor")}>Doctor</a>
+          <a href="/product" className={getNavLinkClass("/product")}>Medicine</a>
+          <a href="/history" className={getNavLinkClass("/history")}>History</a>
+          <a href="/contactus" className={getNavLinkClass("/contactus")}>Contact Us</a>
         </div>
 
         <div className="flex items-center space-x-4">

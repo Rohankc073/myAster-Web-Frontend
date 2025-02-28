@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaBox, FaCalendarCheck, FaShoppingCart, FaUserMd, FaUsers } from "react-icons/fa";
+import { FaBox, FaCalendarCheck, FaQuoteLeft, FaShoppingCart, FaStar, FaUserMd, FaUsers } from "react-icons/fa";
 import {
   CartesianGrid,
   Line,
@@ -164,8 +164,6 @@ const AdminDashboard = () => {
           {/* ✅ User Growth Chart 📊 */}
           <div className="bg-white shadow-md rounded-lg p-6 mt-8">
             <h3 className="text-xl font-bold text-gray-900 mb-4">User Signups Over Time</h3>
-
-            {/* ✅ Chart */}
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={userStats}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -175,6 +173,22 @@ const AdminDashboard = () => {
                 <Line type="monotone" dataKey="users" stroke="#4F46E5" strokeWidth={3} dot={{ r: 5 }} />
               </LineChart>
             </ResponsiveContainer>
+          </div>
+
+          {/* ✅ User Reviews Section 🌟 */}
+          <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md p-8 mt-8">
+            <h3 className="text-2xl font-bold text-center mb-6">What Our Users Say</h3>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+              <div className="text-center">
+                <FaQuoteLeft className="text-3xl mb-2 opacity-75" />
+                <p className="italic">"This platform has made my life so much easier. Highly recommended!"</p>
+                <p className="font-bold mt-2">- John Doe</p>
+                <div className="text-yellow-300 mt-2 flex justify-center">
+                  <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

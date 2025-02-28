@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-// ✅ Import images if stored in `src/assets/`
-// import banner from "../assets/images/banner.png";
-// import slide2 from "../assets/images/slide2.jpg";
-// import slide3 from "../assets/images/slide3.jpg";
+
 
 const Carousel = () => {
   // ✅ Slides with Images (for public/images/ folder)
   const slides = [
     { id: 1, image: "/images/banner.png", alt: "Slide 1" },
-    { id: 2, image: "/images/slide2.jpg", alt: "Slide 2" },
-    { id: 3, image: "/images/slide3.jpg", alt: "Slide 3" },
+    { id: 2, image: "/images/den.png", alt: "Slide 2" },
+    { id: 3, image: "/images/den.png", alt: "Slide 3" },
   ];
-  // const slides = [
-  //   { id: 1, image: "images/banner.png", alt: "Slide 1" },
-  //   { id: 2, image: "images/slide2.jpg", alt: "Slide 2" },
-  //   { id: 3, image: "images/slide3.jpg", alt: "Slide 3" },
-  // ];
+
   
   
 
@@ -30,10 +23,6 @@ const Carousel = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  // ✅ Debugging: Log Image URLs
-  useEffect(() => {
-    console.log("Image Source:", slides[currentSlide].image);
-  }, [currentSlide]);
 
   // ✅ Previous & Next Slide Functions
   const prevSlide = () => {
@@ -46,13 +35,13 @@ const Carousel = () => {
 
   return (
     <div className="relative w-full">
-      <div className="carousel w-full h-[400px] relative overflow-hidden mt-10">
+      <div className="carousel w-full h-[420px] relative overflow-hidden mt-20">
         <div className="carousel-body h-full w-full">
           {slides.map((slide, index) => (
             <div
               key={slide.id}
               className={`carousel-slide absolute inset-0 w-full h-full flex items-center justify-center transition-opacity duration-700 ${
-                index === currentSlide ? "opacity-100" : "opacity-50"
+                index === currentSlide ? "opacity-100" : "hidden"
               }`}
             >
               <img
@@ -61,7 +50,7 @@ const Carousel = () => {
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   // console.error(`Error loading image: ${slide.image}`);
-                  e.target.src = "/images/banner.png"; // Fallback image
+                  // e.target.src = "/images/banner.png"; // Fallback image
                 }}
               />
             </div>
