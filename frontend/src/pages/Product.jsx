@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import { FaMedkit, FaPrescription } from "react-icons/fa";
 import { FiFilter, FiGrid, FiHeart, FiList, FiSearch, FiShoppingCart } from "react-icons/fi";
+import { toast, ToastContainer } from "react-toastify"; // ✅ Import ToastContainer
+import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
@@ -53,45 +55,41 @@ const MedicineProductList = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      // Retrieve the user data from localStorage
       const storedUser = localStorage.getItem("user");
-  
+
       if (!storedUser) {
-        alert("User not logged in. Please log in first.");
+        toast.error("User not logged in. Please log in first!", { position: "top-right" });
         return;
       }
-  
-      // Parse the JSON to get user details
+
       const user = JSON.parse(storedUser);
-      const userId = user._id;  // Extract userId from parsed object
-  
+      const userId = user._id;
+
       if (!userId) {
-        alert("User ID is missing. Please log in again.");
+        toast.error("User ID is missing. Please log in again.", { position: "top-right" });
         return;
       }
-  
-      // Ensure the correct product ID is sent
+
       const productId = product._id || product.id;
-  
+
       console.log("Adding to cart:", { userId, productId });
-  
+
       const response = await axios.post("http://localhost:5003/cart/add", {
         userId,
         productId,
-        quantity: 1, 
+        quantity: 1,
       });
-  
+
       if (response.status === 200 || response.status === 201) {
-        alert("Product added to cart successfully!");
+        toast.success("Product added to cart successfully!", { position: "top-right" });
       } else {
-        alert("Failed to add product to cart.");
+        toast.error("Failed to add product to cart.", { position: "top-right" });
       }
     } catch (error) {
       console.error("Error adding product to cart:", error);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.", { position: "top-right" });
     }
   };
-  
   
   
 
@@ -177,6 +175,7 @@ const MedicineProductList = () => {
   return (
     <>
     <Navbar />
+    <ToastContainer position="top-right" autoClose={3000} /> 
     <div className="min-h-screen bg-background p-6 mt-20">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
@@ -251,7 +250,7 @@ const MedicineProductList = () => {
                       onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                       className="w-full"
                     />
-                    <span className="text-sm text-gray-600">${priceRange[1]}</span>
+                    <span className="text-sm text-gray-600">NPR {priceRange[1]}</span>
                   </div>
                 </div>
 
@@ -316,7 +315,7 @@ const MedicineProductList = () => {
                   <p className="text-gray-600"><span className="font-semibold">Generic Name:</span> {selectedProduct.genericName}</p>
                   <p className="text-gray-600"><span className="font-semibold">Manufacturer:</span> {selectedProduct.manufacturer}</p>
                   <p className="text-gray-600"><span className="font-semibold">Dosage:</span> {selectedProduct.dosage}</p>
-                  <p className="text-gray-600"><span className="font-semibold">Price:</span> ${selectedProduct.price}</p>
+                  <p className="text-gray-600"><span className="font-semibold">Price:</span> NPR {selectedProduct.price}</p>
                   <p className="text-gray-600"><span className="font-semibold">Stock:</span> {selectedProduct.quantity} units</p>
                   <p className="text-gray-600">{selectedProduct.description}</p>
                   <div className="flex space-x-4">

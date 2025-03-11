@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify"; // ✅ Import ToastContainer
+import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
@@ -37,15 +39,16 @@ const CheckoutPage = () => {
     fetchCart();
   }, []);
 
+  
   const handlePlaceOrder = async () => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
-      alert("User not logged in.");
+      toast.error("User not logged in.", { position: "top-right" });
       return;
     }
   
     if (!shippingAddress) {
-      alert("Please enter your shipping address.");
+      toast.error("Please enter your shipping address.", { position: "top-right" });
       return;
     }
   
@@ -57,7 +60,7 @@ const CheckoutPage = () => {
       name: item.name,
       quantity: item.quantity,
       price: item.price,
-      image: item.image ? `http://localhost:5003/${item.image}` : "https://via.placeholder.com/80", // ✅ Ensures full path
+      image: item.image ? `http://localhost:5003/${item.image}` : "https://via.placeholder.com/80",
     }));
   
     try {
@@ -65,23 +68,28 @@ const CheckoutPage = () => {
         userId,
         shippingAddress,
         paymentMethod,
-        items: orderItems, // ✅ Include images
+        items: orderItems,
         total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
       });
   
       if (response.status === 201) {
-        alert("Order placed successfully!");
-        navigate("/order-confirmation", { state: { order: response.data.order } });
+        toast.success("Order placed successfully!", { position: "top-right" });
+        setTimeout(() => {
+          navigate("/order-confirmation", { state: { order: response.data.order } });
+        }, 1000);
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("Failed to place order.");
+      toast.error("Failed to place order.", { position: "top-right" });
     }
+  
   };
   
   return (
     <>
       <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} /> {/* ✅ ToastContainer added */}
+
       <div className="min-h-screen bg-gray-100 py-10 mt-20 flex justify-center">
         <div className="max-w-4xl w-full bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Checkout</h2>

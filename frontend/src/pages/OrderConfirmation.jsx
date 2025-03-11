@@ -59,7 +59,7 @@ const OrderConfirmationPage = () => {
 
                   {/* Product Price */}
                   <span className="font-semibold text-gray-900">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    NPR {(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -68,7 +68,7 @@ const OrderConfirmationPage = () => {
             {/* Total Amount */}
             <div className="flex justify-between items-center border-t mt-4 pt-4">
               <h3 className="text-lg font-semibold text-gray-800">Total Amount:</h3>
-              <span className="text-xl font-bold text-gray-900">${order.total.toFixed(2)}</span>
+              <span className="text-xl font-bold text-gray-900">NPR{order.total.toFixed(2)}</span>
             </div>
           </div>
 
