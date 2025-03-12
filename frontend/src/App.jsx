@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import PackagesPage from "../src/pages/Packages";
 import BookAppointmentPage from "./pages/Appointment";
 import AppointmentSuccess from "./pages/AppointmentSuccess";
 import CartPage from "./pages/Cart";
@@ -19,6 +20,7 @@ import AdminManageDoctors from "./pages/Protected/AdminManageDoctors";
 import AdminOrders from "./pages/Protected/AdminManageOrder";
 import AdminManageMedicines from "./pages/Protected/AdminManageProduct";
 import ManageUsers from "./pages/Protected/AdminManageUsers";
+import ManagePackages from "./pages/Protected/ManagePackage";
 import ResetPassword from "./pages/ResetPassword";
 import SignUpPage from "./pages/Signup";
 import ProtectedRoute from "./routes/ProtectedRoutes";
@@ -44,7 +46,7 @@ function App() {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/history" element={<History />} />
         <Route path="/doctor" element={<DoctorsPage />} />
-
+        <Route path="/packages" element={<PackagesPage />} /> 
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
@@ -55,6 +57,7 @@ function App() {
         <Route path="/admin/appointment" element={<ManageAppointmentsPage />} />
         <Route path="/book-appointment/:doctorId" element={<BookAppointmentPage />} />
         <Route path="/appointment-success" element={<AppointmentSuccess />} />
+        <Route path="/admin/packages" element={<ManagePackages />} />
         {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
 
         {/* Protected Admin Routes */}

@@ -47,6 +47,7 @@ const Navbar = () => {
           <a href="/home" className={getNavLinkClass("/home")}>Home</a>
           <a href="/doctor" className={getNavLinkClass("/doctor")}>Doctor</a>
           <a href="/product" className={getNavLinkClass("/product")}>Medicine</a>
+          <a href="/packages" className={getNavLinkClass("/packages")}>Packages</a>  {/* ✅ New Packages Link */}
           <a href="/history" className={getNavLinkClass("/history")}>History</a>
           <a href="/contactus" className={getNavLinkClass("/contactus")}>Contact Us</a>
         </div>

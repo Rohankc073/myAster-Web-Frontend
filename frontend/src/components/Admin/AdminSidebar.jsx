@@ -3,6 +3,7 @@ import {
   FaBars,
   FaBoxes,
   FaChartBar,
+  FaClipboardList,
   FaShoppingCart,
   FaSignOutAlt,
   FaTimes,
@@ -42,8 +43,6 @@ const AdminSidebar = () => {
         <div className="h-full px-4 py-6 flex flex-col justify-between">
           {/* Navigation Links */}
           <div>
-            {/* <h2 className="text-xl font-bold text-white mb-6 text-center">Admin Panel</h2> */}
-
             <ul className="space-y-4 font-medium">
               <li>
                 <Link to="/admin" className="flex items-center p-3 rounded-lg hover:bg-[#2C3E50]">
@@ -75,6 +74,15 @@ const AdminSidebar = () => {
                   <span className="ml-3">Manage Orders</span>
                 </Link>
               </li>
+
+              {/* ✅ New "Manage Packages" Section */}
+              <li>
+                <Link to="/admin/packages" className="flex items-center p-3 rounded-lg hover:bg-[#2C3E50]">
+                  <FaClipboardList className="w-5 h-5 text-gray-400" />
+                  <span className="ml-3">Manage Packages</span>
+                </Link>
+              </li>
+
               <li>
                 <Link to="/admin/appointment" className="flex items-center p-3 rounded-lg hover:bg-[#2C3E50]">
                   <FaChartBar className="w-5 h-5 text-gray-400" />
