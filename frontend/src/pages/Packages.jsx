@@ -4,10 +4,8 @@ import { FiFilter, FiGrid, FiList, FiSearch } from "react-icons/fi";
 import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
-const categories = ["All", "Basic Health", "Heart Health", "Diabetes", "Senior Care"];
-
 const PackageCard = ({ pkg }) => (
-  <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
     <img 
       src={pkg.image ? pkg.image : "/images/default-package.png"} 
       alt={pkg.name}
@@ -33,14 +31,20 @@ const PackagesPage = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortOption, setSortOption] = useState("default");
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [packageCategories, setPackageCategories] = useState(["All"]);
 
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         const response = await axios.get("http://localhost:5003/packages");
         setPackages(response.data);
+
+        // ✅ Extract unique package names dynamically for filtering
+        const uniqueCategories = ["All", ...new Set(response.data.map(pkg => pkg.name))];
+        setPackageCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching packages:", error);
       } finally {
@@ -51,12 +55,23 @@ const PackagesPage = () => {
   }, []);
 
   const filteredPackages = useMemo(() => {
-    return packages.filter(pkg => {
+    let filtered = packages.filter(pkg => {
       const matchesSearch = pkg.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === "All" || pkg.category === selectedCategory;
+      const matchesCategory = selectedCategory === "All" || pkg.name === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory, packages]);
+
+    // ✅ Sorting Logic
+    if (sortOption === "low-to-high") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "high-to-low") {
+      filtered.sort((a, b) => b.price - a.price);
+    } else if (sortOption === "most-popular") {
+      filtered.sort((a, b) => b.popularity - a.popularity); // Assuming popularity field exists
+    }
+
+    return filtered;
+  }, [searchQuery, selectedCategory, sortOption, packages]);
 
   return (
     <>
@@ -89,15 +104,30 @@ const PackagesPage = () => {
               <h3 className="font-semibold mb-4 flex items-center">
                 <FiFilter className="mr-2" /> Filters
               </h3>
-              <label className="block text-sm font-medium mb-2">Category</label>
+              
+              {/* ✅ Category Filter */}
+              <label className="block text-sm font-medium mb-2">Package Name</label>
               <select
                 className="w-full p-2 border border-input rounded-md"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
-                {categories.map(category => (
+                {packageCategories.map(category => (
                   <option key={category} value={category}>{category}</option>
                 ))}
+              </select>
+
+              {/* ✅ Sorting Filter */}
+              <label className="block text-sm font-medium mt-4 mb-2">Sort By</label>
+              <select
+                className="w-full p-2 border border-input rounded-md"
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="default">Default</option>
+                <option value="low-to-high">Price: Low to High</option>
+                <option value="high-to-low">Price: High to Low</option>
+                <option value="most-popular">Most Popular</option>
               </select>
             </div>
 

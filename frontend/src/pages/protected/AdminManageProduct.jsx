@@ -7,6 +7,7 @@ import AdminSidebar from "../../components/Admin/AdminSidebar";
 
 const AdminManageProducts = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]); // Added for categories
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -19,14 +20,14 @@ const AdminManageProducts = () => {
     quantity: "",
     dosage: "",
     requiresPrescription: false,
-    category: "",
+    category: "", // Add category field here
     image: null,
     description: "",
   });
 
   const token = localStorage.getItem("token");
 
-  // Fetch Medicines
+  // Fetch Medicines and Categories
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:5003/products/all", {
@@ -42,8 +43,21 @@ const AdminManageProducts = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:5003/category/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCategories(response.data); // Save the fetched categories
+    } catch (error) {
+      console.error("❌ Error fetching categories:", error);
+      toast.error("Failed to load categories.");
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchCategories(); // Fetch categories on mount
   }, []);
 
   // Handle Input Change
@@ -78,7 +92,7 @@ const AdminManageProducts = () => {
         quantity: "",
         dosage: "",
         requiresPrescription: false,
-        category: "",
+        category: "", // Reset category to empty when adding new product
         image: null,
         description: "",
       });
@@ -195,43 +209,44 @@ const AdminManageProducts = () => {
 
         {/* Add/Edit Medicine Modal */}
         {showModal && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-      
-      {/* Back/Cancel Button to close the modal */}
-      <button onClick={() => setShowModal(false)} 
-              className="text-gray-700 hover:text-gray-900 flex items-center mb-4">
-        ⬅ Back
-      </button>
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+              {/* Back/Cancel Button to close the modal */}
+              <button onClick={() => setShowModal(false)} className="text-gray-700 hover:text-gray-900 flex items-center mb-4">
+                ⬅ Back
+              </button>
 
-      <h2 className="text-xl font-bold mb-4">{editingProduct ? "Edit Medicine" : "Add Medicine"}</h2>
+              <h2 className="text-xl font-bold mb-4">{editingProduct ? "Edit Medicine" : "Add Medicine"}</h2>
 
-      <input type="text" name="name" placeholder="Medicine Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.name} />
-      <input type="text" name="genericName" placeholder="Generic Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.genericName} />
-      <input type="text" name="manufacturer" placeholder="Manufacturer" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.manufacturer} />
-      <input type="number" name="price" placeholder="Price" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.price} />
-      <input type="number" name="quantity" placeholder="Quantity" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.quantity} />
-      <input type="file" name="image" className="w-full border p-2 mb-2" onChange={handleImageChange} />
-      <textarea name="description" placeholder="Description" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.description} />
+              {/* Inputs */}
+              <input type="text" name="name" placeholder="Medicine Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.name} />
+              <input type="text" name="genericName" placeholder="Generic Name" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.genericName} />
+              <input type="text" name="manufacturer" placeholder="Manufacturer" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.manufacturer} />
+              <input type="number" name="price" placeholder="Price" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.price} />
+              <input type="number" name="quantity" placeholder="Quantity" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.quantity} />
+              <input type="file" name="image" className="w-full border p-2 mb-2" onChange={handleImageChange} />
+              <textarea name="description" placeholder="Description" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.description} />
+              {/* Category Dropdown */}
+              <select name="category" className="w-full border p-2 mb-2" onChange={handleInputChange} value={newProduct.category}>
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>{category.name}</option>
+                ))}
+              </select>
 
-      <div className="flex justify-between">
-        {/* Cancel Button to close modal */}
-        <button onClick={() => setShowModal(false)} 
-                className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500">
-          Cancel
-        </button>
+              {/* Prescription Checkbox */}
+              <div className="flex items-center mb-2">
+                <input type="checkbox" name="requiresPrescription" onChange={handleInputChange} checked={newProduct.requiresPrescription} className="mr-2" />
+                <span>Requires Prescription</span>
+              </div>
 
-        {/* Save Button */}
-        <button onClick={handleSubmit} 
-                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
-          Save
-        </button>
-      </div>
-      
-    </div>
-  </div>
-)}
-
+              {/* Submit Button */}
+              <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded-md w-full">
+                {editingProduct ? "Update Medicine" : "Add Medicine"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

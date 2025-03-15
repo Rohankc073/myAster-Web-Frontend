@@ -16,11 +16,12 @@ const MedicineProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedManufacturer, setSelectedManufacturer] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [showPrescriptionOnly, setShowPrescriptionOnly] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);  // State to store the fetched products
   const [loading, setLoading] = useState(true);  // State for loading indicator
+  
 
   // Fetch products from the API
   useEffect(() => {
@@ -105,6 +106,7 @@ const MedicineProductList = () => {
         <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
         <p className="text-sm text-gray-600">{product.genericName}</p>
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
+        <p className="text-sm text-gray-600">Category: {product.category}</p> {/* Displaying category */}
         <div className="flex justify-between items-center">
           <span className="text-primary font-bold">NRP {product.price}</span>
           <span className={`text-sm ${product.quantity > 0 ? "text-green-500" : "text-red-500"}`}>
@@ -137,6 +139,7 @@ const MedicineProductList = () => {
       </div>
     </div>
   );
+  
 
   const ProductListItem = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300 flex gap-4">
@@ -150,6 +153,7 @@ const MedicineProductList = () => {
         <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
         <p className="text-sm text-gray-600">{product.genericName}</p>
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
+        <p className="text-sm text-gray-600">Category: {product.category}</p> {/* Displaying category */}
         <p className="text-sm text-gray-700">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="text-primary font-bold">NRP {product.price}</span>
@@ -171,6 +175,7 @@ const MedicineProductList = () => {
       </div>
     </div>
   );
+  
 
   return (
     <>
