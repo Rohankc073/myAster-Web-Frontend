@@ -88,27 +88,7 @@ const Footer = () => {
               <p className="text-sm text-gray-500 leading-6 mb-7">
                 Subscribe to get the latest news from us
               </p>
-              <a
-                href="javascript:;"
-                className="flex items-center justify-center gap-2 border border-blue-700 rounded-full py-3 px-6 w-fit lg:mx-0 text-sm text-blue-700 font-semibold transition-all duration-500 hover:bg-indigo-50"
-              >
-                Subscribe
-                {/* <svg
-                  width="15"
-                  height="12"
-                  viewBox="0 0 15 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.25 6L13.25 6M9.5 10.5L13.4697 6.53033..."
-                    stroke="#4F46E5"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg> */}
-              </a>
+        
             </div>
           </div>
           {/* Footer Bottom Section */}

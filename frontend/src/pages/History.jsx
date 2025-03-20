@@ -78,13 +78,13 @@ const History = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {appointments.map((appointment) => (
             <div key={appointment._id} className="bg-white shadow-lg p-6 rounded-lg border border-gray-200">
-              <h3 className="text-lg font-bold text-blue-600"> Dr.{appointment.doctorName}</h3>
+              <h3 className="text-lg font-bold text-blue-600">{appointment.doctorName}</h3>
 
               <p className="text-gray-600"> Problem: {appointment.problemDescription}</p>
               <div className="mt-3 text-gray-700">
                 <p><strong>Date:</strong> {new Date(appointment.date).toLocaleDateString()}</p>
                 <p><strong>Time:</strong> {appointment.time}</p>
-                <p className="font-semibold text-green-500">{appointment.status}</p>
+                <p className="text-gray-600"><strong>Status:</strong> <span className="text-green-600">{appointment.status}</span></p>
               </div>
             </div>
           ))}
@@ -117,7 +117,7 @@ const History = () => {
                     <div>
                       <p className="text-gray-900 font-medium">{item.productId.name}</p>
                       <p className="text-gray-600">Quantity: {item.quantity} pcs</p>
-                      <p className="text-gray-600">Price: ${item.price}</p>
+                      <p className="text-gray-600">Price: NPR {item.price}</p>
                     </div>
                   </li>
                 ))}
