@@ -185,25 +185,26 @@ const AdminManageProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => (
-                <tr key={product._id} className="border hover:bg-gray-50 transition">
-                  <td className="p-3">{index + 1}</td>
-                  <td className="p-3">{product.name}</td>
-                  <td className="p-3">{product.genericName}</td>
-                  <td className="p-3">{product.manufacturer}</td>
-                  <td className="p-3">${product.price}</td>
-                  <td className="p-3">{product.category}</td>
-                  <td className="p-3 flex justify-center space-x-2">
-                    <button onClick={() => openModal(product)} className="text-yellow-600 hover:text-yellow-800">
-                      <FaEdit />
-                    </button>
-                    <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-800">
-                      <FaTrash />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {products.map((product, index) => (
+    <tr key={product._id} className="border hover:bg-gray-50 transition">
+      <td className="p-3">{index + 1}</td>
+      <td className="p-3">{product.name}</td>
+      <td className="p-3">{product.genericName}</td>
+      <td className="p-3">{product.manufacturer}</td>
+      <td className="p-3">${product.price}</td>
+      <td className="p-3">{product.category?.name || "Uncategorized"}</td>
+      <td className="p-3 flex justify-center space-x-2">
+        <button onClick={() => openModal(product)} className="text-yellow-600 hover:text-yellow-800">
+          <FaEdit />
+        </button>
+        <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-800">
+          <FaTrash />
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         </div>
 

@@ -7,8 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/Footer/footer";
 import Navbar from "../components/Navbar/navbar";
 
-// Categories and Manufacturers remain static as before
-const categories = ["All", "Pain Relief", "Antibiotics", "Vitamins", "Heart Health", "Diabetes"];
+// Manufacturers remain static
 const manufacturers = ["All", "HealthCare Pharma", "MediCorp", "NaturalLife"];
 
 const MedicineProductList = () => {
@@ -20,8 +19,25 @@ const MedicineProductList = () => {
   const [showPrescriptionOnly, setShowPrescriptionOnly] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);  // State to store the fetched products
-  const [loading, setLoading] = useState(true);  // State for loading indicator
-  
+  const [loading, setLoading] = useState(true);    // State for loading indicator
+  const [categories, setCategories] = useState(["All"]);  // Dynamic categories; start with "All"
+
+  // Fetch categories from the backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5003/category/");
+        if (response.data.success) {
+          // Map over the categories and extract the name, then add "All" as the first option.
+          setCategories(["All", ...response.data.categories.map((category) => category.name)]);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // Fetch products from the API
   useEffect(() => {
@@ -44,7 +60,8 @@ const MedicineProductList = () => {
     return products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.genericName.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
+      // Here product.category is an object when populated, so we use product.category?.name
+      const matchesCategory = selectedCategory === "All" || product.category?.name === selectedCategory;
       const matchesManufacturer = selectedManufacturer === "All" || product.manufacturer === selectedManufacturer;
       const matchesPriceRange = product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesPrescription = !showPrescriptionOnly || product.requiresPrescription;
@@ -53,7 +70,7 @@ const MedicineProductList = () => {
     });
   }, [searchQuery, selectedCategory, selectedManufacturer, priceRange, showPrescriptionOnly, products]);
 
-
+  // Add product to cart
   const handleAddToCart = async (product) => {
     try {
       const storedUser = localStorage.getItem("user");
@@ -91,8 +108,6 @@ const MedicineProductList = () => {
       toast.error("Something went wrong. Please try again.", { position: "top-right" });
     }
   };
-  
-  
 
   const ProductCard = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300">
@@ -106,7 +121,7 @@ const MedicineProductList = () => {
         <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
         <p className="text-sm text-gray-600">{product.genericName}</p>
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
-        <p className="text-sm text-gray-600">Category: {product.category}</p> {/* Displaying category */}
+        <p className="text-sm text-gray-600">Category: {product.category?.name || "Uncategorized"}</p> {/* ✅ FIXED */}
         <div className="flex justify-between items-center">
           <span className="text-primary font-bold">NRP {product.price}</span>
           <span className={`text-sm ${product.quantity > 0 ? "text-green-500" : "text-red-500"}`}>
@@ -140,7 +155,6 @@ const MedicineProductList = () => {
     </div>
   );
   
-
   const ProductListItem = ({ product }) => (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow duration-300 flex gap-4">
       <img 
@@ -153,7 +167,7 @@ const MedicineProductList = () => {
         <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
         <p className="text-sm text-gray-600">{product.genericName}</p>
         <p className="text-sm text-gray-600">{product.manufacturer}</p>
-        <p className="text-sm text-gray-600">Category: {product.category}</p> {/* Displaying category */}
+        <p className="text-sm text-gray-600">Category: {product.category?.name || "Uncategorized"}</p> {/* ✅ FIXED */}
         <p className="text-sm text-gray-700">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="text-primary font-bold">NRP {product.price}</span>
@@ -176,173 +190,171 @@ const MedicineProductList = () => {
     </div>
   );
   
-
   return (
     <>
-    <Navbar />
-    <ToastContainer position="top-right" autoClose={3000} /> 
-    <div className="min-h-screen bg-background p-6 mt-20">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <div className="relative flex-1 max-w-xl">
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search medicines..."
-              className="w-full pl-10 pr-4 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`p-2 rounded ${viewMode === "grid" ? "bg-primary text-white" : "text-gray-600"}`}
-            >
-              <FiGrid size={20} />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={`p-2 rounded ${viewMode === "list" ? "bg-primary text-white" : "text-gray-600"}`}
-            >
-              <FiList size={20} />
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="md:col-span-1 space-y-6">
-            <div className="bg-white rounded-lg shadow p-4">
-              <h3 className="font-semibold mb-4 flex items-center">
-                <FiFilter className="mr-2" /> Filters
-              </h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Category</label>
-                  <select
-                    className="w-full p-2 border border-input rounded-md"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                  >
-                    {categories.map(category => (
-                      <option key={category} value={category}>{category}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Manufacturer</label>
-                  <select
-                    className="w-full p-2 border border-input rounded-md"
-                    value={selectedManufacturer}
-                    onChange={(e) => setSelectedManufacturer(e.target.value)}
-                  >
-                    {manufacturers.map(manufacturer => (
-                      <option key={manufacturer} value={manufacturer}>{manufacturer}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Price Range</label>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                      className="w-full"
-                    />
-                    <span className="text-sm text-gray-600">NPR {priceRange[1]}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="prescriptionOnly"
-                    checked={showPrescriptionOnly}
-                    onChange={(e) => setShowPrescriptionOnly(e.target.checked)}
-                    className="mr-2"
-                  />
-                  <label htmlFor="prescriptionOnly" className="text-sm">Prescription Only</label>
-                </div>
-              </div>
+      <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} /> 
+      <div className="min-h-screen bg-background p-6 mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div className="relative flex-1 max-w-xl">
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search medicines..."
+                className="w-full pl-10 pr-4 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-2 rounded ${viewMode === "grid" ? "bg-primary text-white" : "text-gray-600"}`}
+              >
+                <FiGrid size={20} />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-2 rounded ${viewMode === "list" ? "bg-primary text-white" : "text-gray-600"}`}
+              >
+                <FiList size={20} />
+              </button>
             </div>
           </div>
 
-          <div className="md:col-span-3">
-            {loading ? (
-              <div className="text-center py-12 bg-white rounded-lg">
-                <FaMedkit className="mx-auto text-4xl text-gray-400 mb-4" />
-                <p className="text-gray-600">Loading products...</p>
-              </div>
-            ) : filteredProducts.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-lg">
-                <FaMedkit className="mx-auto text-4xl text-gray-400 mb-4" />
-                <p className="text-gray-600">No products found matching your criteria</p>
-              </div>
-            ) : (
-              <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-6"}>
-                {filteredProducts.map(product => (
-                  viewMode === "grid" ? 
-                    <ProductCard key={product.id} product={product} /> :
-                    <ProductListItem key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {selectedProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl font-semibold">{selectedProduct.name}</h2>
-                <button
-                  onClick={() => setSelectedProduct(null)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ×
-                </button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <img
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  className="w-full h-64 object-cover rounded-lg"
-                />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="md:col-span-1 space-y-6">
+              <div className="bg-white rounded-lg shadow p-4">
+                <h3 className="font-semibold mb-4 flex items-center">
+                  <FiFilter className="mr-2" /> Filters
+                </h3>
+                
                 <div className="space-y-4">
-                  <p className="text-gray-600"><span className="font-semibold">Generic Name:</span> {selectedProduct.genericName}</p>
-                  <p className="text-gray-600"><span className="font-semibold">Manufacturer:</span> {selectedProduct.manufacturer}</p>
-                  <p className="text-gray-600"><span className="font-semibold">Dosage:</span> {selectedProduct.dosage}</p>
-                  <p className="text-gray-600"><span className="font-semibold">Price:</span> NPR {selectedProduct.price}</p>
-                  <p className="text-gray-600"><span className="font-semibold">Stock:</span> {selectedProduct.quantity} units</p>
-                  <p className="text-gray-600">{selectedProduct.description}</p>
-                  <div className="flex space-x-4">
-                  <button 
-              className="flex-1 bg-primary text-white py-2 rounded hover:bg-blue-600 transition-colors"
-            onClick={() => handleAddToCart(selectedProduct)}
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Category</label>
+                    <select
+                      className="w-full p-2 border border-input rounded-md"
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
                     >
-            Add to Cart
-                </button>
+                      {categories.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                    <button className="flex-1 border border-primary text-primary py-2 rounded hover:bg-primary hover:text-white transition-colors">
-                      Add to Wishlist
-                    </button>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Manufacturer</label>
+                    <select
+                      className="w-full p-2 border border-input rounded-md"
+                      value={selectedManufacturer}
+                      onChange={(e) => setSelectedManufacturer(e.target.value)}
+                    >
+                      {manufacturers.map(manufacturer => (
+                        <option key={manufacturer} value={manufacturer}>{manufacturer}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Price Range</label>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={priceRange[1]}
+                        onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                        className="w-full"
+                      />
+                      <span className="text-sm text-gray-600">NPR {priceRange[1]}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="prescriptionOnly"
+                      checked={showPrescriptionOnly}
+                      onChange={(e) => setShowPrescriptionOnly(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <label htmlFor="prescriptionOnly" className="text-sm">Prescription Only</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="md:col-span-3">
+              {loading ? (
+                <div className="text-center py-12 bg-white rounded-lg">
+                  <FaMedkit className="mx-auto text-4xl text-gray-400 mb-4" />
+                  <p className="text-gray-600">Loading products...</p>
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="text-center py-12 bg-white rounded-lg">
+                  <FaMedkit className="mx-auto text-4xl text-gray-400 mb-4" />
+                  <p className="text-gray-600">No products found matching your criteria</p>
+                </div>
+              ) : (
+                <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-6"}>
+                  {filteredProducts.map(product => (
+                    viewMode === "grid" ? 
+                      <ProductCard key={product.id} product={product} /> :
+                      <ProductListItem key={product.id} product={product} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {selectedProduct && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <h2 className="text-xl font-semibold">{selectedProduct.name}</h2>
+                  <button
+                    onClick={() => setSelectedProduct(null)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <img
+                    src={selectedProduct.image}
+                    alt={selectedProduct.name}
+                    className="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div className="space-y-4">
+                    <p className="text-gray-600"><span className="font-semibold">Generic Name:</span> {selectedProduct.genericName}</p>
+                    <p className="text-gray-600"><span className="font-semibold">Manufacturer:</span> {selectedProduct.manufacturer}</p>
+                    <p className="text-gray-600"><span className="font-semibold">Dosage:</span> {selectedProduct.dosage}</p>
+                    <p className="text-gray-600"><span className="font-semibold">Price:</span> NPR {selectedProduct.price}</p>
+                    <p className="text-gray-600"><span className="font-semibold">Stock:</span> {selectedProduct.quantity} units</p>
+                    <p className="text-gray-600">{selectedProduct.description}</p>
+                    <div className="flex space-x-4">
+                      <button 
+                        className="flex-1 bg-primary text-white py-2 rounded hover:bg-blue-600 transition-colors"
+                        onClick={() => handleAddToCart(selectedProduct)}
+                      >
+                        Add to Cart
+                      </button>
+                      <button className="flex-1 border border-primary text-primary py-2 rounded hover:bg-primary hover:text-white transition-colors">
+                        Add to Wishlist
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-    <Footer />
+        )}
+      </div>
+      <Footer />
     </>
   );
 };
