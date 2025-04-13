@@ -41,7 +41,7 @@ const Navbar = () => {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/home" className="flex items-center space-x-3">
           <img src="/images/logo1.png" className="h-10" alt="myAster Logo" />
-        </a>
+        </a> 
 
         <div className="items-center hidden md:flex space-x-8">
           <a href="/home" className={getNavLinkClass("/home")}>Home</a>
